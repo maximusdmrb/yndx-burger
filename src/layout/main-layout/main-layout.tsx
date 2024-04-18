@@ -1,11 +1,14 @@
 import { PropsWithChildren } from "react";
-import Header from "../../components/header/header";
+import AppHeader from "../../components/header/header";
+import styles from "./main-layout.module.scss";
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (
-    <>
-      <Header />
-      {children}
-    </>
+    <div className={styles.layout}>
+      <AppHeader />
+      <main className="pl-5 pr-5">
+        <div className={`${styles.container} container`}>{children}</div>
+      </main>
+    </div>
   );
 }

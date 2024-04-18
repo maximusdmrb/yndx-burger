@@ -1,6 +1,6 @@
-import { PropsWithChildren } from "react";
+import { HTMLAttributes, PropsWithChildren } from "react";
 
-const TypographyVariants = {
+const typographyVariants = {
   variants: {
     default: "text_type_main-default",
     large: "text_type_main-large",
@@ -12,8 +12,8 @@ const TypographyVariants = {
     digits_large: "text_type_digits-large",
   },
 };
-type TextVariants = keyof typeof TypographyVariants.variants;
+type TextVariants = keyof typeof typographyVariants.variants;
 
-export default function Typography({ variants = "default", children }: PropsWithChildren<HTMLParagraphElement> & { variants?: TextVariants }) {
-  return <p className={`text ${variants}`}>{children}</p>;
+export default function Typography({ variants = "default", children, className = "" }: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>> & { variants?: TextVariants }) {
+  return <p className={`text ${typographyVariants.variants[variants]} ${className}`}>{children}</p>;
 }

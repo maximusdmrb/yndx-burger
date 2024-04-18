@@ -1,0 +1,21 @@
+.list {
+  &:last-child {
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .type {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-primary);
+    box-shadow: 0 0 40px 25px var(--bg-primary);
+  }
+  .items {
+    background-color: var(--bg-primary);
+    display: grid;
+    gap: 2rem 1.5rem;
+    grid-template-columns: repeat(2, calc(50% - 1.5rem / 2));
+    &:not(:last-child) {
+      margin-bottom: 40px;
+    }
+  }
+}
