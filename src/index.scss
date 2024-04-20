@@ -9,6 +9,9 @@
   margin: 0;
   box-sizing: border-box;
 }
+.text-secondary {
+  color: var(--text-secondary);
+}
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -32,4 +35,8 @@ body {
 }
 .center {
   text-align: center;
+}
+
+img {
+  pointer-events: none;
 }

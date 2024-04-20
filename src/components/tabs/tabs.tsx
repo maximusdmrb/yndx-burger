@@ -6,9 +6,9 @@ export const renderTypesIng = {
   sauce: "Соусы",
   main: "Начинки",
 };
-export type TypesIngredient = keyof typeof renderTypesIng;
+export type TypeIngredient = keyof typeof renderTypesIng;
 
-export default function Tabs({ tabs }: { tabs: TypesIngredient[] }) {
+export default function Tabs({ tabs }: { tabs: TypeIngredient[] }) {
   const [current, setCurrent] = React.useState("bun");
   return (
     <div className="mt-5 mb-10" style={{ display: "flex" }}>

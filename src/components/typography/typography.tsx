@@ -14,6 +14,10 @@ const typographyVariants = {
 };
 type TextVariants = keyof typeof typographyVariants.variants;
 
-export default function Typography({ variants = "default", children, className = "" }: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>> & { variants?: TextVariants }) {
-  return <p className={`text ${typographyVariants.variants[variants]} ${className}`}>{children}</p>;
+export default function Typography({ variants = "default", children, className = "", ...props }: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>> & { variants?: TextVariants }) {
+  return (
+    <p {...props} className={`text ${typographyVariants.variants[variants]} ${className}`}>
+      {children}
+    </p>
+  );
 }
