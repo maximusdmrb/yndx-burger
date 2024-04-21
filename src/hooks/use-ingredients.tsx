@@ -3,12 +3,14 @@ import { Ingredient } from "../pages/constructror/constructor";
 
 const URL_GET_ING = "https://norma.nomoreparties.space/api/ingredients";
 
+interface IQueryIngredients {
+  data: Ingredient[];
+  loading: boolean;
+  error: null | string;
+}
+
 export default function useIngredients() {
-  const [request, setRequest] = useState<{
-    data: Ingredient[];
-    loading: boolean;
-    error: null | string;
-  }>({
+  const [request, setRequest] = useState<IQueryIngredients>({
     data: [],
     loading: true,
     error: null,
