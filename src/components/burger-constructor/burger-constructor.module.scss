@@ -1,0 +1,44 @@
+.higher,
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.higher {
+  > div:nth-child(1),
+  > div:nth-child(3) {
+    margin-left: 32px;
+  }
+  > div:nth-child(2) {
+    padding-left: 32px;
+  }
+}
+.scroll {
+  max-height: 440px;
+  overflow: auto;
+  > div {
+    position: relative;
+    &::before {
+      content: url("/dragger.svg");
+      position: absolute;
+      fill: #fff;
+      right: calc(100% - 5px);
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+.total {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 40px;
+  p {
+    display: flex;
+    gap: 0.5rem;
+  }
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+}

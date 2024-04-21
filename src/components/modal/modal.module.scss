@@ -1,0 +1,54 @@
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba($color: #000000, $alpha: 0.6);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  > div {
+    cursor: auto;
+  }
+}
+
+.modal {
+  padding: 40px 40px 60px;
+  background-color: var(--bg-secondary);
+  border-radius: 40px;
+  width: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > div:first-child {
+    width: 100%;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    svg {
+      cursor: pointer;
+    }
+  }
+  .orderhead {
+    justify-content: right;
+  }
+  .order {
+    text-shadow: #4c4cff 1px 0 20px;
+  }
+  .info {
+    display: flex;
+    gap: 40px;
+    color: var(--text-secondary);
+    > div {
+      text-align: center;
+      > p:first-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

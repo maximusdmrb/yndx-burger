@@ -1,0 +1,42 @@
+:root {
+  --bg-primary: #131316;
+  --bg-secondary: #1c1c21;
+  --text-primary: #fff;
+  --text-secondary: #8585ad;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "JetBrains Mono", Arial, Helvetica, sans-serif;
+}
+.container {
+  width: 100%;
+  max-width: 1240px;
+  height: auto;
+  margin: 0 auto;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+}
+.items-center {
+  align-items: center;
+}
+.right {
+  text-align: right;
+}
+.center {
+  text-align: center;
+}
+
+img {
+  pointer-events: none;
+}

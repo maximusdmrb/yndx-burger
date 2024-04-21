@@ -1,0 +1,9 @@
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+.link.active {
+  color: var(--text-primary);
+}
