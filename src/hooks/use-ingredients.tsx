@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Ingredient } from "../pages/constructror/constructor";
 
 const URL_GET_ING = "https://norma.nomoreparties.space/api/ingredients";
@@ -17,10 +17,13 @@ export default function useIngredients() {
     setRequest({ ...request, error: null });
     (async () => {
       try {
-        const res = await fetch(URL_GET_ING, { method: "GET" });
+        const res = await fetch(URL_GET_ING);
+        if (!res.ok) {
+          throw new Error("Ответ вернул ошибку");
+        }
         setRequest({ ...request, loading: false, data: (await res.json()).data });
-      } catch (error) {
-        setRequest({ ...request, loading: false, error: "Произошла ошибка" });
+      } catch (error: any) {
+        setRequest({ ...request, loading: false, error: error.message ?? JSON.stringify(error) });
       }
     })();
   }, []);

@@ -1,7 +1,7 @@
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import styles from "./constructor.module.scss";
-import useIngredients from "../../hooks/use-fetch";
+import useIngredients from "../../hooks/use-ingredients";
 import { useMemo } from "react";
 import { TypeIngredient } from "../../components/tabs/tabs";
 
@@ -23,7 +23,6 @@ export interface Ingredient {
 
 export default function Constructor() {
   const { data, loading, error } = useIngredients();
-
   /* Hardcore: select ingredient  */
   const selectedIngredients = useMemo(() => data.slice(0, 7), [data]);
   /* Add count selected  */

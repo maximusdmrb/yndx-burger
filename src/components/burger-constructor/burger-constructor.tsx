@@ -41,7 +41,7 @@ export default function BurgerConstructor({ selectedIngredients }: { selectedIng
         </Button>
       </div>
       {order && (
-        <Modal closeFn={() => setOrder(false)}>
+        <Modal onClose={() => setOrder(false)}>
           <OrderDetails />
         </Modal>
       )}

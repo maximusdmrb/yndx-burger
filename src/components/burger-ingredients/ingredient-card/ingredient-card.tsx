@@ -5,8 +5,6 @@ import styles from "./ingredient-card.module.scss";
 import { HTMLAttributes } from "react";
 
 export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<HTMLDivElement> & { ingredient: Ingredient }) {
-  console.log(ingredient.count);
-
   return (
     <div className={styles.card} {...props}>
       {!!ingredient.count && <Counter count={ingredient.count} size="default" extraClass="m-1" />}

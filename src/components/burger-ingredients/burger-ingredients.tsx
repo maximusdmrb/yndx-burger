@@ -4,7 +4,7 @@ import { Ingredient } from "../../pages/constructror/constructor";
 import { Fragment } from "react/jsx-runtime";
 import styles from "./burger-ingredients.module.scss";
 import IngredientCard from "./ingredient-card/ingredient-card";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Modal from "../modal/modal";
 import IngredientDetails from "../modal/ingridient-details";
 
@@ -33,7 +33,7 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
         ))}
       </div>
       {ingredientDetail && (
-        <Modal title="Детали ингредиента" closeFn={() => setIngredientDetaill(null)}>
+        <Modal title="Детали ингредиента" onClose={() => setIngredientDetaill(null)}>
           <IngredientDetails ingredient={ingredientDetail} />
         </Modal>
       )}

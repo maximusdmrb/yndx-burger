@@ -4,16 +4,20 @@ import ModalOverlay from "./modal-overlay";
 
 const modalRoot = document.getElementById("modal") as HTMLElement;
 
-export default function Modal({ title, closeFn, children }: { title?: string; closeFn: () => void } & PropsWithChildren) {
-  const close = (e: any = null) => {
+interface IModalProps {
+  title?: string;
+  onClose: () => void;
+}
+export default function Modal({ title, onClose, children }: PropsWithChildren<IModalProps>) {
+  const closeEsc = (e: KeyboardEvent) => {
     if (e.key && e.key !== "Escape") return;
-    closeFn();
+    onClose();
   };
   useEffect(() => {
-    document.addEventListener("keyup", close);
+    document.addEventListener("keyup", closeEsc);
     return () => {
-      document.removeEventListener("keyup", close);
+      document.removeEventListener("keyup", closeEsc);
     };
   }, []);
-  return ReactDOM.createPortal(<ModalOverlay title={title} onClick={close} children={children} />, modalRoot);
+  return ReactDOM.createPortal(<ModalOverlay title={title} onClick={onClose} children={children} />, modalRoot);
 }
