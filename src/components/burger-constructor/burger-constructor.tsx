@@ -1,47 +1,46 @@
-import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Ingredient } from "../../pages/constructror/constructor";
+import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.scss";
 import Typography from "../typography/typography";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/order-details";
+import Burger from "./burger";
+import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { store } from "../../services/store";
+import { closeOrder, orderQuery } from "../../services/slices/order-slice";
+import { clearBurger } from "../../services/slices/constructor-slice";
 
-export default function BurgerConstructor({ selectedIngredients }: { selectedIngredients: Ingredient[] }) {
-  /* Order Modal */
-  const [order, setOrder] = useState(false);
+export default function BurgerConstructor() {
+  const order = useTypedSelector((store) => store.order);
 
-  const bun = selectedIngredients.find((ing) => ing.type === "bun");
-  const bunProps = bun && {
-    isLocked: true,
-    text: bun.name,
-    price: bun.price,
-    thumbnail: bun.image_mobile,
+  const { bun, selectedIngredients } = useTypedSelector((store) => store.burger);
+  const { error, loading, show } = useTypedSelector((store) => store.order);
+  const bunPrice = bun ? bun.price * 2 : 0;
+  const totalPrice = useMemo(() => bunPrice + selectedIngredients.reduce((acc, cur) => acc + cur.price, 0), [bunPrice, selectedIngredients]);
+
+  const handleOrder = useCallback(() => {
+    bun && store.dispatch(orderQuery([bun?._id, ...selectedIngredients.map((ing) => ing._id), bun?._id]));
+  }, [bun, selectedIngredients]);
+
+  const handleCloseModal = () => {
+    store.dispatch(closeOrder());
+    !error && store.dispatch(clearBurger());
   };
-  const totalPrice = useMemo(() => selectedIngredients.reduce((acc, cur) => acc + cur.price, 0), [selectedIngredients]);
 
   return (
     <>
-      <div className={styles.higher}>
-        {bunProps && <ConstructorElement type="top" {...bunProps} />}
-        <div className={`${styles.list} ${styles.scroll} custom-scroll`}>
-          {selectedIngredients
-            .filter((ing) => ing.type !== "bun")
-            .map((ing) => (
-              <ConstructorElement key={ing._id} text={ing.name} price={ing.price} thumbnail={ing.image_mobile} />
-            ))}
-        </div>
-        {bunProps && <ConstructorElement type="bottom" {...bunProps} />}
-      </div>
-      <div className={styles.total + " mt-10"}>
+      <Burger />
+      <div className={styles.total + " mt-10 mr-6"} style={{ opacity: totalPrice ? 1 : 0.5 }}>
         <Typography variants="digits_medium">
-          {totalPrice} <CurrencyIcon type="primary" />
+          {totalPrice}
+          <CurrencyIcon type="primary" />
         </Typography>
-        <Button onClick={() => setOrder(true)} htmlType="button" type="primary" size="large">
+        <Button disabled={loading || show || !bun || !selectedIngredients.length} onClick={handleOrder} htmlType="button" type="primary" size="large">
           Оформить заказ
         </Button>
       </div>
-      {order && (
-        <Modal onClose={() => setOrder(false)}>
+      {order.show && (
+        <Modal onClose={handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}
