@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import MainLayout from "./layout/main-layout/main-layout";
-import Constructor from "./pages/constructror/constructor";
+import Constructor from "./pages/home/constructor";
 import { Provider } from "react-redux";
 import { store } from "./services/store";
 
