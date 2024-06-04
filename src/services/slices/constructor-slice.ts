@@ -7,8 +7,8 @@ interface IStoreBurger {
   dragIngredient: Ingredient | null;
 }
 const initialState: IStoreBurger = {
-  bun: null,
-  selectedIngredients: [],
+  bun: JSON.parse(localStorage.getItem("bun") || "null"),
+  selectedIngredients: JSON.parse(localStorage.getItem("ingredients") || "[]"),
   dragIngredient: null,
 };
 export const constructorSlice = createSlice({
@@ -39,7 +39,11 @@ export const constructorSlice = createSlice({
       state.selectedIngredients[toIndex] = fromEl;
     },
     clearBurger() {
-      return initialState;
+      return {
+        bun: null,
+        selectedIngredients: [],
+        dragIngredient: null,
+      };
     },
   },
 });

@@ -1,0 +1,28 @@
+.layout {
+  display: flex;
+  gap: 60px;
+
+  nav {
+    max-width: 319px;
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      a {
+        cursor: pointer;
+        font-size: 1.5rem;
+        padding: 15px 0;
+        color: #8585ad;
+        display: block;
+        transition: transform 0.3s ease, color 0.3s ease;
+        &[class="active"] {
+          color: #fff;
+        }
+        &:hover {
+          color: #fff;
+          transform: translateX(10px);
+        }
+      }
+    }
+  }
+}

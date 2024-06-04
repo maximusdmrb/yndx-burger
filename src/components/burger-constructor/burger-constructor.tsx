@@ -1,7 +1,7 @@
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.scss";
 import Typography from "../typography/typography";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/order-details";
 import Burger from "./burger";
@@ -9,23 +9,39 @@ import { useTypedSelector } from "../../hooks/use-typed-selector";
 import { store } from "../../services/store";
 import { closeOrder, orderQuery } from "../../services/slices/order-slice";
 import { clearBurger } from "../../services/slices/constructor-slice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function BurgerConstructor() {
-  const order = useTypedSelector((store) => store.order);
-
+  const { user } = useTypedSelector((store) => store.user);
   const { bun, selectedIngredients } = useTypedSelector((store) => store.burger);
-  const { error, loading, show } = useTypedSelector((store) => store.order);
+  const { error, loading, order } = useTypedSelector((store) => store.order);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const bunPrice = bun ? bun.price * 2 : 0;
-  const totalPrice = useMemo(() => bunPrice + selectedIngredients.reduce((acc, cur) => acc + cur.price, 0), [bunPrice, selectedIngredients]);
+  const totalPrice = useMemo(() => selectedIngredients.reduce((acc, cur) => acc + cur.price, bunPrice), [bunPrice, selectedIngredients]);
 
   const handleOrder = useCallback(() => {
+    if (!user) {
+      localStorage.setItem("order", "true");
+      return navigate("/login", { state: location.state });
+    }
     bun && store.dispatch(orderQuery([bun?._id, ...selectedIngredients.map((ing) => ing._id), bun?._id]));
+    localStorage.removeItem("order");
   }, [bun, selectedIngredients]);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     store.dispatch(closeOrder());
     !error && store.dispatch(clearBurger());
-  };
+  }, [loading]);
+  useEffect(() => {
+    localStorage.getItem("order") && handleOrder();
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("ingredients", JSON.stringify(selectedIngredients));
+    localStorage.setItem("bun", JSON.stringify(bun));
+  }, [bun, selectedIngredients]);
 
   return (
     <>
@@ -35,12 +51,12 @@ export default function BurgerConstructor() {
           {totalPrice}
           <CurrencyIcon type="primary" />
         </Typography>
-        <Button disabled={loading || show || !bun || !selectedIngredients.length} onClick={handleOrder} htmlType="button" type="primary" size="large">
+        <Button disabled={loading || !bun || !selectedIngredients.length} onClick={handleOrder} htmlType="button" type="primary" size="large">
           Оформить заказ
         </Button>
       </div>
-      {order.show && (
-        <Modal onClose={handleCloseModal}>
+      {(loading || order.number) && (
+        <Modal onClose={loading ? () => {} : handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}

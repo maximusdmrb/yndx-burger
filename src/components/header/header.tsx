@@ -8,7 +8,7 @@ export default function AppHeader() {
       <div className={"container"}>
         <div className={`${styles.grid}`}>
           <nav className={styles.nav}>
-            <MenuLink active icon={BurgerIcon} to="/constructor">
+            <MenuLink icon={BurgerIcon} to="/">
               Конструктор
             </MenuLink>
             <MenuLink icon={ListIcon} to="/list">

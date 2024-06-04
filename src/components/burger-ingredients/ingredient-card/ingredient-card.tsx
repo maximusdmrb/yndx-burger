@@ -7,8 +7,11 @@ import { useDrag } from "react-dnd";
 import { store } from "../../../services/store";
 import { setDragIngredient } from "../../../services/slices/constructor-slice";
 import { useTypedSelector } from "../../../hooks/use-typed-selector";
+import { Link, useLocation } from "react-router-dom";
 
 export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<HTMLDivElement> & { ingredient: Ingredient }) {
+  const location = useLocation();
+
   const [{ opacity }, dragRef] = useDrag({
     type: ingredient.type === "bun" ? "bun" : "other",
     item: ingredient,
@@ -27,14 +30,16 @@ export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<
     store.dispatch(setDragIngredient(null));
   };
   return (
-    <div className={styles.card + " noselect"} {...props} draggable ref={dragRef} onDragEnd={handleOnDragEnd} onDrag={handleOnDrag} style={{ opacity }}>
-      {!!qty && <Counter count={qty} size="default" extraClass="m-1" />}
-      <img src={ingredient.image} title={ingredient.name} alt={ingredient.name} />
-      <div className={styles.price}>
-        <Typography variants="digits">{ingredient.price}</Typography>
-        <CurrencyIcon type="primary" />
+    <Link to={`/ingredients/${ingredient._id}`} state={{ background: location }}>
+      <div className={styles.card + " noselect"} {...props} draggable ref={dragRef} onDragEnd={handleOnDragEnd} onDrag={handleOnDrag} style={{ opacity }}>
+        {!!qty && <Counter count={qty} size="default" extraClass="m-1" />}
+        <img src={ingredient.image} title={ingredient.name} alt={ingredient.name} />
+        <div className={styles.price}>
+          <Typography variants="digits">{ingredient.price}</Typography>
+          <CurrencyIcon type="primary" />
+        </div>
+        <Typography variants="default">{ingredient.name}</Typography>
       </div>
-      <Typography variants="default">{ingredient.name}</Typography>
-    </div>
+    </Link>
   );
 }

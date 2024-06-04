@@ -4,6 +4,7 @@ import { tabSlice } from "./slices/tab-slice";
 import { ingredientsSlice } from "./slices/ingredients-slice";
 import { constructorSlice } from "./slices/constructor-slice";
 import { orderSlice } from "./slices/order-slice";
+import { userSlice } from "./slices/user-slice";
 
 export const store = configureStore({
   reducer: combineReducers({
@@ -11,6 +12,7 @@ export const store = configureStore({
     [tabSlice.reducerPath]: tabSlice.reducer,
     [constructorSlice.reducerPath]: constructorSlice.reducer,
     [orderSlice.reducerPath]: orderSlice.reducer,
+    [userSlice.reducerPath]: userSlice.reducer,
   }),
 });
 export type TypeRootStore = ReturnType<typeof store.getState>;

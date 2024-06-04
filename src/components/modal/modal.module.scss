@@ -19,6 +19,10 @@
   padding: 40px 40px 60px;
   background-color: var(--bg-secondary);
   border-radius: 40px;
+}
+.modal,
+.page {
+  margin: auto;
   width: 720px;
   display: flex;
   flex-direction: column;

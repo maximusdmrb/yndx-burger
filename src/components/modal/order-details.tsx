@@ -3,8 +3,15 @@ import Typography from "../typography/typography";
 import { useTypedSelector } from "../../hooks/use-typed-selector";
 
 export default function OrderDetails() {
-  const { error, order } = useTypedSelector((store) => store.order);
-  return (
+  const { loading, error, order } = useTypedSelector((store) => store.order);
+  return loading ? (
+    <>
+      <img src="/loader.svg" alt="loading..." />
+      <Typography variants="medium" className="mt-15">
+        Оформляем заказ
+      </Typography>
+    </>
+  ) : (
     <>
       <Typography className={styles.order + " mb-8 mt-8"} variants="digits_large">
         {error ? "Упс..." : order?.number}
