@@ -1,43 +1,29 @@
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import styles from "./constructor.module.scss";
-import useIngredients from "../../hooks/use-ingredients";
-import { useMemo } from "react";
-import { TypeIngredient } from "../../components/tabs/tabs";
-
-export interface Ingredient {
-  _id: string;
-  name: string;
-  type: TypeIngredient;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  count: number;
-  __v: number;
-}
+import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useEffect } from "react";
+import { ingredientsQuery } from "../../services/slices/ingredients-slice";
+import { store } from "../../services/store";
+import Typography from "../../components/typography/typography";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export default function Constructor() {
-  const { data, loading, error } = useIngredients();
-  /* Hardcore: select ingredient  */
-  const selectedIngredients = useMemo(() => data.slice(0, 7), [data]);
-  /* Add count selected  */
-  const ingredients = useMemo(() => data.map((ingredient) => ({ ...ingredient, count: selectedIngredients.filter((select) => select._id === ingredient._id).length })), [data]);
+  const { isLoading, ingredients, error } = useTypedSelector((store) => store.ings);
+  useEffect(() => {
+    store.dispatch(ingredientsQuery());
+  }, []);
 
-  if (loading) return "Загрузка";
-  if (error) return error;
   return (
-    <div className={styles.grid + " pb-10 "}>
-      <div className={styles.col + " pt-10"}>
-        <BurgerIngredients ingredients={ingredients} />
+    <DndProvider backend={HTML5Backend}>
+      <div className={styles.grid + " pb-10 "}>
+        <div className={styles.col + " pt-10"}>
+          <Typography variants="large">{isLoading ? "Загрузка..." : error || "Соберите бургер"}</Typography>
+          {!isLoading && !error && <BurgerIngredients ingredients={ingredients} />}
+        </div>
+        <div className={styles.col + " pl-4 pt-25"}>{!isLoading && !error && <BurgerConstructor />}</div>
       </div>
-      <div className={styles.col + " pl-4 pt-25"}>
-        <BurgerConstructor selectedIngredients={selectedIngredients} />
-      </div>
-    </div>
+    </DndProvider>
   );
 }

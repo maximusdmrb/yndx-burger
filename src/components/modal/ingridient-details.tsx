@@ -1,6 +1,6 @@
-import { Ingredient } from "../../pages/constructror/constructor";
 import styles from "./modal.module.scss";
 import Typography from "../typography/typography";
+import { Ingredient } from "../../interfaces";
 
 export default function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
   return (

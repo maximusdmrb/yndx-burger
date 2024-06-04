@@ -1,19 +1,19 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import { useTypedSelector } from "../../hooks/use-typed-selector";
 
 export const renderTypesIng = {
   bun: "Булки",
   sauce: "Соусы",
   main: "Начинки",
 };
-export type TypeIngredient = keyof typeof renderTypesIng;
+export type CategoryIngredient = keyof typeof renderTypesIng;
 
-export default function Tabs({ tabs }: { tabs: TypeIngredient[] }) {
-  const [current, setCurrent] = React.useState("bun");
+export default function Tabs({ tabs, onTabClick }: { tabs: CategoryIngredient[]; onTabClick: (type: CategoryIngredient) => void }) {
+  const activeTab = useTypedSelector((store) => store.tab);
   return (
     <div className="mt-5 mb-10" style={{ display: "flex" }}>
       {tabs.map((type) => (
-        <Tab key={type} value={type} active={current === type} onClick={setCurrent}>
+        <Tab key={type} value={type} active={activeTab === type} onClick={onTabClick.bind(null, type)}>
           {renderTypesIng[type]}
         </Tab>
       ))}

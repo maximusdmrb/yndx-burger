@@ -1,24 +1,43 @@
 import Typography from "../typography/typography";
-import Tabs, { renderTypesIng } from "../tabs/tabs";
-import { Ingredient } from "../../pages/constructror/constructor";
-import { Fragment } from "react/jsx-runtime";
+import Tabs, { CategoryIngredient, renderTypesIng } from "../tabs/tabs";
 import styles from "./burger-ingredients.module.scss";
 import IngredientCard from "./ingredient-card/ingredient-card";
-import { useState } from "react";
+import { UIEvent, useRef, useState } from "react";
 import Modal from "../modal/modal";
 import IngredientDetails from "../modal/ingridient-details";
+import { switchTab } from "../../services/slices/tab-slice";
+import { Ingredient } from "../../interfaces";
+import { store } from "../../services/store";
 
 export default function BurgerIngredients({ ingredients }: { ingredients: Ingredient[] }) {
   const [ingredientDetail, setIngredientDetaill] = useState<Ingredient | null>(null);
   const typesIngredient = [...new Set(ingredients.map((ingredient) => ingredient.type))];
+  const setActiveTab = (e: UIEvent<HTMLDivElement>) => {
+    const top = e.currentTarget.getBoundingClientRect().top;
+    const categoryBlock = [...(e.currentTarget?.childNodes as NodeListOf<HTMLDivElement>)].find((category) => {
+      const categoryTop = category.getBoundingClientRect().top;
+      const categoryBottom = category.getBoundingClientRect().bottom;
+      if (top >= categoryTop && top < categoryBottom) return true;
+      return false;
+    });
+    store.dispatch(switchTab(categoryBlock?.dataset.type));
+  };
+
+  const scrollBlock = useRef<HTMLDivElement>(null);
+  const scrollToCategory = (type: CategoryIngredient) => {
+    if (scrollBlock.current && scrollBlock.current.childNodes) {
+      const getTopCategory = [...(scrollBlock.current.childNodes as NodeListOf<HTMLDivElement>)].find((category) => category.dataset.type === type)?.getBoundingClientRect().top || 0;
+      const top = getTopCategory - scrollBlock.current.getBoundingClientRect().top + (type !== "bun" ? 40 : 0);
+      scrollBlock.current.scrollBy({ behavior: "smooth", top });
+    }
+  };
 
   return (
     <>
-      <Typography variants="large">Соберите бургер</Typography>
-      <Tabs tabs={typesIngredient} />
-      <div className={styles.list + " custom-scroll"}>
+      <Tabs tabs={typesIngredient} onTabClick={scrollToCategory} />
+      <div className={styles.list + " custom-scroll"} ref={scrollBlock} onScroll={setActiveTab}>
         {typesIngredient.map((type) => (
-          <Fragment key={type}>
+          <div key={type} data-type={type}>
             <Typography className={`${styles.type}`} variants="medium">
               {renderTypesIng[type]}
             </Typography>
@@ -29,7 +48,7 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
                   <IngredientCard onClick={() => setIngredientDetaill(ingredient)} key={ingredient._id} ingredient={ingredient} />
                 ))}
             </div>
-          </Fragment>
+          </div>
         ))}
       </div>
       {ingredientDetail && (

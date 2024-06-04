@@ -8,14 +8,15 @@
     top: 0;
     background-color: var(--bg-primary);
     box-shadow: 0 0 40px 25px var(--bg-primary);
+    z-index: 1;
+  }
+  > div:not(:first-child) {
+    padding-top: 40px;
   }
   .items {
     background-color: var(--bg-primary);
     display: grid;
     gap: 2rem 1.5rem;
     grid-template-columns: repeat(2, calc(50% - 1.5rem / 2));
-    &:not(:last-child) {
-      margin-bottom: 40px;
-    }
   }
 }
