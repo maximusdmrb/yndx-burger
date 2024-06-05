@@ -11,7 +11,6 @@ interface IStoreOrder {
     number: null | number | string;
   };
   success: boolean;
-  show: boolean;
   loading: boolean;
   error: boolean;
 }
@@ -22,7 +21,6 @@ const initialState: IStoreOrder = {
     number: null,
   },
   success: false,
-  show: false,
   loading: false,
   error: false,
 };
@@ -32,16 +30,16 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     closeOrder: (state) => {
-      state.show = false;
+      state.loading = false;
+      state.order.number = null;
     },
   },
   extraReducers(builder) {
     builder.addCase(orderQuery.pending, (state) => {
       state.loading = true;
-      state.show = false;
     });
     builder.addCase(orderQuery.fulfilled, (_, action) => {
-      return { ...action.payload, loading: false, show: true, error: false };
+      return { ...action.payload, loading: false, error: false };
     });
     builder.addCase(orderQuery.rejected, (state) => {
       return {

@@ -2,16 +2,15 @@ import Typography from "../typography/typography";
 import Tabs, { CategoryIngredient, renderTypesIng } from "../tabs/tabs";
 import styles from "./burger-ingredients.module.scss";
 import IngredientCard from "./ingredient-card/ingredient-card";
-import { UIEvent, useRef, useState } from "react";
-import Modal from "../modal/modal";
-import IngredientDetails from "../modal/ingridient-details";
+import { UIEvent, useEffect, useRef, useState } from "react";
 import { switchTab } from "../../services/slices/tab-slice";
 import { Ingredient } from "../../interfaces";
 import { store } from "../../services/store";
 
 export default function BurgerIngredients({ ingredients }: { ingredients: Ingredient[] }) {
-  const [ingredientDetail, setIngredientDetaill] = useState<Ingredient | null>(null);
+  const [_, setIngredientDetail] = useState<Ingredient | null>(null);
   const typesIngredient = [...new Set(ingredients.map((ingredient) => ingredient.type))];
+
   const setActiveTab = (e: UIEvent<HTMLDivElement>) => {
     const top = e.currentTarget.getBoundingClientRect().top;
     const categoryBlock = [...(e.currentTarget?.childNodes as NodeListOf<HTMLDivElement>)].find((category) => {
@@ -31,6 +30,9 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
       scrollBlock.current.scrollBy({ behavior: "smooth", top });
     }
   };
+  useEffect(() => {
+    store.dispatch(switchTab("bun"));
+  }, []);
 
   return (
     <>
@@ -45,17 +47,12 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
               {ingredients
                 .filter((ingredient) => ingredient.type === type)
                 .map((ingredient) => (
-                  <IngredientCard onClick={() => setIngredientDetaill(ingredient)} key={ingredient._id} ingredient={ingredient} />
+                  <IngredientCard onClick={() => setIngredientDetail(ingredient)} key={ingredient._id} ingredient={ingredient} />
                 ))}
             </div>
           </div>
         ))}
       </div>
-      {ingredientDetail && (
-        <Modal title="Детали ингредиента" onClose={() => setIngredientDetaill(null)}>
-          <IngredientDetails ingredient={ingredientDetail} />
-        </Modal>
-      )}
     </>
   );
 }

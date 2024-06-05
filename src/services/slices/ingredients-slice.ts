@@ -27,7 +27,7 @@ export const ingredientsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(ingredientsQuery.fulfilled, (state, action) => {
-      state.ingredients = action.payload;
+      state.ingredients = action.payload.data;
       state.error = null;
       state.isLoading = false;
     });

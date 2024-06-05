@@ -1,27 +1,28 @@
-import axios from "axios";
+import { EmailData, LoginData, RegisterData, ResetData } from "../interfaces";
+import { query, queryWithToken } from "../utils/axios";
 
-const BASE_URL = "https://norma.nomoreparties.space/api";
 const GET_ING = "/ingredients";
-const POST_ORDER = "/orders";
+const POST_ORDERS = "/orders";
+const POST_REGISTER = "/auth/register";
+const POST_LOGIN = "/auth/login";
+const POST_LOGOUT = "/auth/logout";
+const GET_USER = "/auth/user";
+const POST_FOGOT = "/password-reset";
+const POST_RESET = "/password-reset/reset";
 
 class Api {
-  async getIngredients() {
-    try {
-      const res = await axios(BASE_URL + GET_ING);
-      if (res.data) return res.data.data;
-      return Promise.reject(`Произошла ошибка запроса ${res.status}`);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  }
-  async order(ingredients: string[]) {
-    try {
-      const res = await axios.post(BASE_URL + POST_ORDER, { ingredients });
-      if (res.data) return res.data;
-      return Promise.reject(`Произошла ошибка запроса ${res.status}`);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  }
+  getIngredients = async () => query(GET_ING);
+
+  login = async (body: LoginData) => query(POST_LOGIN, "POST", body);
+  register = async (body: RegisterData) => query(POST_REGISTER, "POST", body);
+  logout = async () => query(POST_LOGOUT, "POST", { token: localStorage.getItem("refreshToken") });
+
+  fogot = async (body: EmailData) => query(POST_FOGOT, "POST", body);
+  reset = async (body: ResetData) => query(POST_RESET, "POST", body);
+
+  /* Protected query */
+  getUser = async () => queryWithToken(GET_USER);
+  editUser = async (body: Partial<RegisterData>) => queryWithToken(GET_USER, "PATCH", body);
+  order = async (ingredients: string[]) => queryWithToken(POST_ORDERS, "POST", { ingredients });
 }
 export default new Api();

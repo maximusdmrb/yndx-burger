@@ -15,3 +15,8 @@ export interface Ingredient {
   __v: number;
   nanoid: string;
 }
+
+export type RegisterData = { email: string; name: string; password: string };
+export type LoginData = Pick<RegisterData, "email" | "password">;
+export type EmailData = Pick<LoginData, "email">;
+export type ResetData = { password: string; token: string };

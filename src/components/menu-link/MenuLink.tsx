@@ -2,18 +2,20 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./link.module.scss";
 import { PropsWithChildren, ReactElement } from "react";
 import { TIconProps } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
+import { NavLink } from "react-router-dom";
 
-export default function MenuLink({ active, to, icon, children }: PropsWithChildren<{ active?: boolean; to: string; icon: ({ type }: TIconProps) => ReactElement }>) {
+export default function MenuLink({ to, icon, children }: PropsWithChildren<{ to: string; icon: ({ type }: TIconProps) => ReactElement }>) {
   const Icon = icon;
   return (
-    /* Replace to <Link> from React Router  */
-    <a href={to}>
-      <Button htmlType="button" type="secondary">
-        <div className={`${styles.link} ${active ? styles.active : ""}`}>
-          <Icon type={active ? "primary" : "secondary"} />
-          <span>{children}</span>
-        </div>
-      </Button>
-    </a>
+    <NavLink to={to}>
+      {({ isActive }) => (
+        <Button htmlType="button" type="secondary">
+          <div className={`${styles.link} ${isActive ? styles.active : ""}`}>
+            <Icon type={isActive ? "primary" : "secondary"} />
+            <span>{children}</span>
+          </div>
+        </Button>
+      )}
+    </NavLink>
   );
 }
