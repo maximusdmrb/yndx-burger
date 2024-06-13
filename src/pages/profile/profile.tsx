@@ -60,7 +60,6 @@ export default function Profile() {
   return (
     <form onSubmit={handleChangeSubmit}>
       <div className={cn(styles.profile)}>
-        {/* @ts-ignore */}
         <Input
           ref={refName}
           style={{ color: changedFileds.name ? "#fff" : "#8585AD" }}

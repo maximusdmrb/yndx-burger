@@ -1,4 +1,4 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { Ingredient } from "../../interfaces";
 
 interface IStoreBurger {
@@ -16,23 +16,23 @@ export const constructorSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: {
-      reducer(state, action) {
+      reducer(state, action: PayloadAction<Ingredient>) {
         state.selectedIngredients.unshift(action.payload);
       },
-      prepare(ingredient): any {
+      prepare(ingredient: Ingredient) {
         return { payload: { ...ingredient, nanoid: nanoid() } };
       },
     },
-    setDragIngredient(state, action) {
+    setDragIngredient(state, action: PayloadAction<Ingredient | null>) {
       state.dragIngredient = action.payload;
     },
-    setBun(state, action) {
+    setBun(state, action: PayloadAction<Ingredient | null>) {
       state.bun = action.payload;
     },
-    removeIngredient(state, action) {
+    removeIngredient(state, action: PayloadAction<string>) {
       state.selectedIngredients = state.selectedIngredients.filter((ing) => ing.nanoid != action.payload);
     },
-    sortIngredients(state, action) {
+    sortIngredients(state, action: PayloadAction<{ fromIndex: number; toIndex: number }>) {
       const { fromIndex, toIndex } = action.payload;
       const fromEl = state.selectedIngredients[fromIndex];
       state.selectedIngredients[fromIndex] = state.selectedIngredients[toIndex];

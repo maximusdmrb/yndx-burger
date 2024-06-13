@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 
 export const orderQuery = createAsyncThunk("order/orderQuery", async (ingredients: string[]) => {
@@ -38,7 +38,7 @@ export const orderSlice = createSlice({
     builder.addCase(orderQuery.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(orderQuery.fulfilled, (_, action) => {
+    builder.addCase(orderQuery.fulfilled, (_, action: PayloadAction<IStoreOrder>) => {
       return { ...action.payload, loading: false, error: false };
     });
     builder.addCase(orderQuery.rejected, (state) => {

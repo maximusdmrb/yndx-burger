@@ -3,13 +3,15 @@ axios.defaults.baseURL = "https://norma.nomoreparties.space/api";
 
 export const instance = axios.create();
 
-export const query = async (url: string, method: Method = "GET", data?: any) => {
+export const query = async <T>(url: string, method: Method = "GET", data?: T) => {
   try {
     const res = await axios(url, data ? { data, method } : { method });
     if (res.data) return res.data;
     return Promise.reject(`Произошла ошибка ${res.status}`);
   } catch (error) {
-    return Promise.reject((error as AxiosError).response?.data);
+    const err = error as AxiosError<{ message: string; success: boolean }>;
+    if (!err.response) return Promise.reject(err);
+    return Promise.reject(err.response.data);
   }
 };
 
@@ -23,7 +25,7 @@ export const refreshToken = async () => {
   localStorage.setItem("accessToken", refreshData.accessToken);
 };
 
-export const queryWithToken = async (url: string, method: Method = "GET", data?: any) => {
+export const queryWithToken = async <T>(url: string, method: Method = "GET", data?: T) => {
   try {
     instance.interceptors.request.use((config) => {
       config.headers.Authorization = localStorage.getItem("accessToken");
@@ -33,8 +35,9 @@ export const queryWithToken = async (url: string, method: Method = "GET", data?:
     if (res.data) return res.data;
     return Promise.reject(`Произошла ошибка ${res.status}`);
   } catch (error) {
-    /* @ts-ignore */
-    if (error.response.data.message === "jwt expired") {
+    const err = error as AxiosError<{ message: string; success: boolean }>;
+    if (!err.response) return Promise.reject(error);
+    if (err.response.data.message === "jwt expired") {
       instance.interceptors.response.clear();
       await refreshToken();
       instance.interceptors.request.use((config) => {
@@ -45,7 +48,7 @@ export const queryWithToken = async (url: string, method: Method = "GET", data?:
       if (res.data) return res.data;
       return Promise.reject(error);
     }
-    return Promise.reject((error as AxiosError).response?.data);
+    return Promise.reject(err.response.data);
   } finally {
     instance.interceptors.response.clear();
   }
