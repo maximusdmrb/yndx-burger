@@ -35,7 +35,6 @@ export default function Login() {
           {location.state?.reset && <Typography className={styles.msg}>Пароль изменен успешно</Typography>}
           {error && <Typography className={styles.error}>{error}</Typography>}
           <Typography variants="medium">Вход</Typography>
-          {/* @ts-ignore */}
           <Input required type={"email"} placeholder={"Email"} value={form.email} onChange={handleChange} name="email" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
           <PasswordInput onChange={handleChange} value={form.password} name={"password"} extraClass="mb-2" />
           <Button disabled={isLoading} extraClass={styles.btn} name="submit" htmlType="submit">

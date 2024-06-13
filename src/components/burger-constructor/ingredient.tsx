@@ -28,7 +28,7 @@ export default function IngredientElement({ sortIndex, ingredient }: IngredientE
   };
   const handleSort = (e: SyntheticEvent<HTMLDivElement>) => {
     if (!dragIngredient?.nanoid) return;
-    const [fromIndex, toIndex] = [selectedIngredients.findIndex((ing) => ing.nanoid === dragIngredient.nanoid), e.currentTarget.dataset.sort];
+    const [fromIndex, toIndex] = [selectedIngredients.findIndex((ing) => ing.nanoid === dragIngredient.nanoid), Number(e.currentTarget.dataset?.sort)];
     if (toIndex && +toIndex !== fromIndex) store.dispatch(sortIngredients({ fromIndex, toIndex }));
   };
   return (

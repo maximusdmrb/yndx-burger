@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, SerializedError, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { LoginData, RegisterData } from "../../interfaces";
 
@@ -54,7 +54,7 @@ export const userSlice = createSlice({
         state.isLoading = true;
         state.error = "";
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<{ user: User }>) => {
         state.user = action.payload.user;
         state.isAuthChecked = true;
         state.error = "";
@@ -72,13 +72,13 @@ export const userSlice = createSlice({
         state.isLoading = true;
         state.error = "";
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state, action: PayloadAction<{ user: User }>) => {
         state.user = action.payload.user;
         state.isAuthChecked = true;
         state.isLoading = false;
         state.error = "";
       })
-      .addCase(register.rejected, (state, action) => {
+      .addCase(register.rejected, (state, action: { error: SerializedError }) => {
         state.user = null;
         state.isAuthChecked = true;
         state.isLoading = false;
@@ -101,17 +101,16 @@ export const userSlice = createSlice({
         state.isLoading = true;
         state.error = "";
       })
-      .addCase(getUser.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state, action: PayloadAction<{ user: User }>) => {
         state.user = action.payload.user;
         state.isAuthChecked = true;
         state.isLoading = false;
         state.error = "";
       })
-      .addCase(getUser.rejected, (state, action) => {
+      .addCase(getUser.rejected, (state) => {
         state.user = null;
         state.isAuthChecked = true;
         state.isLoading = false;
-        // state.error = action.error.message ?? "";
       })
 
       /* editUser */
@@ -119,12 +118,12 @@ export const userSlice = createSlice({
         state.isLoading = true;
         state.error = "";
       })
-      .addCase(editUser.fulfilled, (state, action) => {
+      .addCase(editUser.fulfilled, (state, action: PayloadAction<{ user: User }>) => {
         state.user = action.payload.user;
         state.isLoading = false;
         state.error = "";
       })
-      .addCase(editUser.rejected, (state, action) => {
+      .addCase(editUser.rejected, (state, action: { error: SerializedError }) => {
         state.user = null;
         state.isLoading = false;
         state.error = action.error.message ?? "";

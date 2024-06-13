@@ -29,7 +29,6 @@ export default function Register() {
       <div className={`${styles.column}`}>
         <form onSubmit={handleRegister}>
           <Typography variants="medium">Регистрация</Typography>
-          {/* @ts-ignore */}
           <Input required type={"text"} placeholder={"Имя"} value={form.name} onChange={handleChange} name="name" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
           <EmailInput onChange={handleChange} value={form.email} name={"email"} isIcon={false} />
           <PasswordInput onChange={handleChange} value={form.password} name={"password"} extraClass="mb-2" />

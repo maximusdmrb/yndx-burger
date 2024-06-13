@@ -38,7 +38,6 @@ export default function ResetPassword() {
           {error && <Typography className={styles.error}>{error}</Typography>}
           <Typography variants="medium">Восстановление пароля</Typography>
           <PasswordInput required onChange={handleChange} value={form.password} name={"password"} extraClass="mb-2" />
-          {/* @ts-ignore */}
           <Input required type={"text"} placeholder={"Код из письма"} value={form.token} onChange={handleChange} name="token" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
           <Button disabled={isLoading} extraClass={styles.btn} htmlType="submit">
             {isLoading ? "Подождите..." : "Восстановить"}

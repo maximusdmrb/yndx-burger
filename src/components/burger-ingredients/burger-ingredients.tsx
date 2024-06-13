@@ -19,7 +19,7 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
       if (top >= categoryTop && top < categoryBottom) return true;
       return false;
     });
-    store.dispatch(switchTab(categoryBlock?.dataset.type));
+    if (categoryBlock?.dataset.type) store.dispatch(switchTab(categoryBlock.dataset.type as CategoryIngredient));
   };
 
   const scrollBlock = useRef<HTMLDivElement>(null);

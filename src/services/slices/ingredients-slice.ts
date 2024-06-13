@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, SerializedError, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api";
 import { Ingredient } from "../../interfaces";
 
@@ -26,12 +26,12 @@ export const ingredientsSlice = createSlice({
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(ingredientsQuery.fulfilled, (state, action) => {
+    builder.addCase(ingredientsQuery.fulfilled, (state, action: PayloadAction<{ data: Ingredient[] }>) => {
       state.ingredients = action.payload.data;
       state.error = null;
       state.isLoading = false;
     });
-    builder.addCase(ingredientsQuery.rejected, (state, action) => {
+    builder.addCase(ingredientsQuery.rejected, (state, action: { error: SerializedError }) => {
       state.error = action.error.message ?? "Прозошла неизвестная ошибка";
       state.isLoading = false;
     });
