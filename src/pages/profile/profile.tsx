@@ -1,42 +1,40 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "../../utils/cn";
 import styles from "./profile.module.scss";
-import { ChangeEvent, FocusEvent, FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FocusEvent, FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useTypedSelector } from "../../hooks/use-typed-selector";
-import { User, editUser } from "../../services/slices/user-slice";
+import { editUser } from "../../services/slices/user-slice";
 import { store } from "../../services/store";
+import useForm from "../../hooks/use-form";
 
 export default function Profile() {
   const { user, isLoading } = useTypedSelector((store) => store.user);
   if (!user) return;
-  const [formUser, setFormUser] = useState<User & { password: string }>({ ...user, password: "*******" });
+  const { values, onChange, setValues } = useForm({ ...user, password: "*******" });
+
   const [disabledName, setDisabledName] = useState(true);
   const refName = useRef<HTMLInputElement>(null);
 
   const [isChanged, changedFileds] = useMemo(() => {
     return [
-      formUser.email !== user.email || formUser.name !== user.name || formUser.password !== "*******",
+      values.email !== user.email || values.name !== user.name || values.password !== "*******",
       {
-        email: formUser.email !== user.email,
-        name: formUser.name !== user.name,
-        password: formUser.password !== "*******" && formUser.password !== "",
+        email: values.email !== user.email,
+        name: values.name !== user.name,
+        password: values.password !== "*******" && values.password !== "",
       },
     ];
-  }, [formUser]);
+  }, [values]);
 
   const handleBlurName = () => {
     setDisabledName(true);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormUser({ ...formUser, [e.target.name]: e.target.value });
-  };
-
   const handleStartEdit = (e: FocusEvent<HTMLInputElement>) => {
-    if (e.target.value === "*******") setFormUser({ ...formUser, password: "" });
+    if (e.target.value === "*******") setValues({ ...values, password: "" });
   };
   const handleEndEdit = (e: FocusEvent<HTMLInputElement>) => {
-    if (!e.target.value) setFormUser({ ...formUser, password: "*******" });
+    if (!e.target.value) setValues({ ...values, password: "*******" });
   };
   const onEditName = (e: MouseEvent<HTMLDivElement>) => {
     setDisabledName(false);
@@ -51,7 +49,7 @@ export default function Profile() {
 
   const handleChangeSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const sentData = { ...formUser };
+    const sentData = { ...values };
     for (const key in changedFileds) {
       if (!changedFileds[key as keyof typeof changedFileds]) delete sentData[key as keyof typeof changedFileds];
     }
@@ -60,29 +58,28 @@ export default function Profile() {
   return (
     <form onSubmit={handleChangeSubmit}>
       <div className={cn(styles.profile)}>
-        {/* @ts-ignore */}
         <Input
           ref={refName}
           style={{ color: changedFileds.name ? "#fff" : "#8585AD" }}
           onBlur={handleBlurName}
           type="text"
           disabled={disabledName}
-          value={formUser.name || ""}
+          value={values.name || ""}
           placeholder="Имя"
-          onChange={handleChange}
+          onChange={onChange}
           name="name"
           icon="EditIcon"
           onIconClick={onEditName}
         />
-        <EmailInput onChange={handleChange} style={{ color: changedFileds.email ? "#fff" : "#8585AD" }} value={formUser.email || ""} name={"email"} isIcon={true} />
-        <PasswordInput onFocus={handleStartEdit} onBlurCapture={handleEndEdit} onChange={handleChange} value={formUser.password} style={{ color: changedFileds.password ? "#fff" : "#8585AD" }} name={"password"} icon="EditIcon" />
+        <EmailInput onChange={onChange} style={{ color: changedFileds.email ? "#fff" : "#8585AD" }} value={values.email || ""} name={"email"} isIcon={true} />
+        <PasswordInput onFocus={handleStartEdit} onBlurCapture={handleEndEdit} onChange={onChange} value={values.password} style={{ color: changedFileds.password ? "#fff" : "#8585AD" }} name={"password"} icon="EditIcon" />
       </div>
       {isChanged && (
         <div className="mt-10">
           <Button disabled={!isChanged || isLoading} extraClass="mr-5" htmlType="submit" onClick={() => console.log("click")}>
             Сохранить
           </Button>
-          <Button htmlType="button" onClick={() => setFormUser({ ...user, password: "*******" })}>
+          <Button htmlType="button" onClick={() => setValues({ ...user, password: "*******" })}>
             Отменить
           </Button>
         </div>

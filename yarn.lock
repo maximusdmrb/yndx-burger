@@ -534,7 +534,7 @@
 
 "@ya.praktikum/react-developer-burger-ui-components@^1.14.0":
   version "1.14.0"
-  resolved "https://registry.npmjs.org/@ya.praktikum/react-developer-burger-ui-components/-/react-developer-burger-ui-components-1.14.0.tgz"
+  resolved "https://registry.yarnpkg.com/@ya.praktikum/react-developer-burger-ui-components/-/react-developer-burger-ui-components-1.14.0.tgz#50eaf4df96532feb87dca4f5b0399ef80edaacc4"
   integrity sha512-SoGRRUaNg7Zmu6dL2sqPn87OwNye/vuE/D6U0DzkGkeTedo/EryEvV8xGsrMyWmjBr87LJ8YlrI8PNHHSn+8/A==
   dependencies:
     clsx "^1.1.1"
@@ -671,7 +671,7 @@ classnames@^2.5.1:
 
 clsx@^1.1.1:
   version "1.2.1"
-  resolved "https://registry.npmjs.org/clsx/-/clsx-1.2.1.tgz"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
   integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
 
 color-convert@^2.0.1:
@@ -1325,7 +1325,7 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.3.1:
 
 plural-ru@^2.0.2:
   version "2.0.2"
-  resolved "https://registry.npmjs.org/plural-ru/-/plural-ru-2.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/plural-ru/-/plural-ru-2.0.2.tgz#5fda445d7a7f83a94020e3b81266c873a85eebb4"
   integrity sha512-zmQv/tMG7fjF8r8JJ2U1p9dP1RgQ54RnP9nOM9dJHlcWU4mVmesKU9RgouxvyrCIU7lwOtGBYJ6cBa00UlzUZQ==
 
 postcss@^8.4.38:

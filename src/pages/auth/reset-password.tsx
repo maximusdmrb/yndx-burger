@@ -4,22 +4,21 @@ import styles from "./auth.module.scss";
 import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import useForm from "../../hooks/use-form";
 
 export default function ResetPassword() {
-  const [form, setForm] = useState({ password: "", token: "" });
+  const { values, onChange } = useForm({ password: "", token: "" });
+
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
   const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     api
-      .reset(form)
+      .reset(values)
       .then((res) => {
         if (res.success) {
           localStorage.removeItem("fogot");
@@ -37,9 +36,8 @@ export default function ResetPassword() {
         <form onSubmit={handleResetPassword}>
           {error && <Typography className={styles.error}>{error}</Typography>}
           <Typography variants="medium">Восстановление пароля</Typography>
-          <PasswordInput required onChange={handleChange} value={form.password} name={"password"} extraClass="mb-2" />
-          {/* @ts-ignore */}
-          <Input required type={"text"} placeholder={"Код из письма"} value={form.token} onChange={handleChange} name="token" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
+          <PasswordInput required onChange={onChange} value={values.password} name={"password"} extraClass="mb-2" />
+          <Input required type={"text"} placeholder={"Код из письма"} value={values.token} onChange={onChange} name="token" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
           <Button disabled={isLoading} extraClass={styles.btn} htmlType="submit">
             {isLoading ? "Подождите..." : "Восстановить"}
           </Button>
