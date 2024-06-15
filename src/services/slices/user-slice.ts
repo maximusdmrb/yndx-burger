@@ -60,7 +60,7 @@ export const userSlice = createSlice({
         state.error = "";
         state.isLoading = false;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state, action: { error: SerializedError }) => {
         state.user = null;
         state.isAuthChecked = true;
         state.isLoading = false;

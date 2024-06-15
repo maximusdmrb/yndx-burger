@@ -48,6 +48,10 @@ export const queryWithToken = async <T>(url: string, method: Method = "GET", dat
       if (res.data) return res.data;
       return Promise.reject(error);
     }
+
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
     return Promise.reject(err.response.data);
   } finally {
     instance.interceptors.response.clear();
