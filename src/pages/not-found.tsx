@@ -5,10 +5,10 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 export default function Page404() {
   return (
     <div>
-      <Typography variants="large" className="mt-10">
+      <Typography variant="large" className="mt-10">
         Страницы не существует
       </Typography>
-      <Typography variants="digits" className="mt-5">
+      <Typography variant="digits" className="mt-5">
         404 Not Found
       </Typography>
       <Link to={"/"}>

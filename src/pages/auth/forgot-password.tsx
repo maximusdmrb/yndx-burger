@@ -29,14 +29,14 @@ export default function ForgotPassword() {
       <div className={`${styles.column}`}>
         <form onSubmit={handleFogotPassword}>
           {error && <Typography className={styles.error}>{error}</Typography>}
-          <Typography variants="medium">Восстановление пароля</Typography>
+          <Typography variant="medium">Восстановление пароля</Typography>
           <EmailInput autoComplete="username" required placeholder={"Email"} value={values.email} onChange={onChange} name="email" size={"default"} extraClass="ml-1" />
           <Button disabled={isLoading} extraClass={styles.btn} htmlType="submit">
             {isLoading ? "Подождите..." : "Запросить код"}
           </Button>
         </form>
         <div className="mt-15">
-          <Typography variants="inactive">
+          <Typography variant="inactive">
             Вспомнили пароль?{" "}
             <Link to="/login" state={location.state}>
               <Button htmlType="button" type="secondary" size="medium">

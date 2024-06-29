@@ -21,7 +21,7 @@ export default function Constructor() {
     <DndProvider backend={HTML5Backend}>
       <div className={styles.grid + " pb-10 "}>
         <div className={styles.col + " pt-10"}>
-          <Typography variants="large">{error || "Соберите бургер"}</Typography>
+          <Typography variant="large">{error || "Соберите бургер"}</Typography>
           {!isLoading && !error && <BurgerIngredients ingredients={ingredients} />}
         </div>
         <div className={styles.col + " pl-4 pt-25"}>{!isLoading && !error && <BurgerConstructor />}</div>

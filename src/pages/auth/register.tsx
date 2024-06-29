@@ -27,7 +27,7 @@ export default function Register() {
     <>
       <div className={`${styles.column}`}>
         <form onSubmit={handleRegister}>
-          <Typography variants="medium">Регистрация</Typography>
+          <Typography variant="medium">Регистрация</Typography>
           <Input autoComplete="given-name" required type={"text"} placeholder={"Имя"} value={values.name} onChange={onChange} name="name" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
           <EmailInput autoComplete="email" onChange={onChange} value={values.email} name={"email"} isIcon={false} />
           <PasswordInput autoComplete="new-password" onChange={onChange} value={values.password} name={"password"} extraClass="mb-2" />
@@ -36,7 +36,7 @@ export default function Register() {
           </Button>
         </form>
         <div className="mt-15">
-          <Typography variants="inactive">
+          <Typography variant="inactive">
             Уже зарегистрированы?{" "}
             <Link to="/login" state={location.state}>
               <Button htmlType="button" type="secondary" size="medium">

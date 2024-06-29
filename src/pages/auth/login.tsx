@@ -32,7 +32,7 @@ export default function Login() {
         <form onSubmit={handleLogin}>
           {location.state?.reset && <Typography className={styles.msg}>Пароль изменен успешно</Typography>}
           {error && <Typography className={styles.error}>{error}</Typography>}
-          <Typography variants="medium">Вход</Typography>
+          <Typography variant="medium">Вход</Typography>
           <Input autoComplete="email" required type={"email"} placeholder={"Email"} value={values.email} onChange={onChange} name="email" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
           <PasswordInput autoComplete="current-password" onChange={onChange} value={values.password} name={"password"} extraClass="mb-2" />
           <Button disabled={isLoading} extraClass={styles.btn} name="submit" htmlType="submit">
@@ -40,7 +40,7 @@ export default function Login() {
           </Button>
         </form>
         <div className="mt-15">
-          <Typography variants="inactive">
+          <Typography variant="inactive">
             Вы новый пользователь?{" "}
             <Link to="/register" state={location.state}>
               <Button htmlType="button" type="secondary" size="medium">
@@ -48,7 +48,7 @@ export default function Login() {
               </Button>
             </Link>
           </Typography>
-          <Typography variants="inactive">
+          <Typography variant="inactive">
             Забыли пароль?{" "}
             <Link to="/forgot-password" state={location.state}>
               <Button htmlType="button" type="secondary" size="medium">

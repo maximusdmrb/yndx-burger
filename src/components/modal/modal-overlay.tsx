@@ -10,7 +10,7 @@ export default function ModalOverlay({ title, children, onClick, ...props }: Pro
     <div {...props} onClick={onClick} className={styles.overlay}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <Typography variants="large">{title ? title : " "}</Typography>
+          <Typography variant="large">{title ? title : " "}</Typography>
           {!isLoading && (
             <div onClick={onClick}>
               <CloseIcon type="primary" />

@@ -20,6 +20,7 @@ import IngredientDetails from "./components/modal/ingridient-details";
 import { ingredientsQuery } from "./services/slices/ingredients-slice";
 import ProfileLayout from "./layout/profile-layout/profile-layout";
 import { getUser } from "./services/slices/user-slice";
+import Feed from "./pages/feed/feed";
 
 const App = () => {
   const location = useLocation();
@@ -41,11 +42,20 @@ const App = () => {
 
           <Route path="profile" element={<PrivateRoute element={<ProfileLayout />} />}>
             <Route index element={<Profile />} />
-            <Route path="orders" element={<>История заказов</>} />
+            <Route path="orders">
+              <Route index element={<>История заказов</>} />
+              <Route path=":id" element={<>Заказ</>} />
+            </Route>
+          </Route>
+
+          <Route path="feed">
+            <Route index element={<Feed />} />
+            <Route path=":id" element={<>Заказ</>} />
           </Route>
 
           <Route element={<CenterLayout />}>
             <Route path="ingredients/:id" element={<IngredientDetails />} />
+            <Route path="feed/:id" element={<IngredientDetails />} />
             {/* Auth Routes */}
             <Route path="login" element={<GuestRoute element={<Login />} />} />
             <Route path="register" element={<GuestRoute element={<Register />} />} />
@@ -62,6 +72,14 @@ const App = () => {
             path="ingredients/:id"
             element={
               <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="feed/:id"
+            element={
+              <Modal title="Детали заказа" onClose={handleCloseModal}>
                 <IngredientDetails />
               </Modal>
             }

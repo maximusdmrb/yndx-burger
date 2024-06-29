@@ -35,10 +35,10 @@ export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<
         {!!qty && <Counter count={qty} size="default" extraClass="m-1" />}
         <img src={ingredient.image} title={ingredient.name} alt={ingredient.name} />
         <div className={styles.price}>
-          <Typography variants="digits">{ingredient.price}</Typography>
+          <Typography variant="digits">{ingredient.price}</Typography>
           <CurrencyIcon type="primary" />
         </div>
-        <Typography variants="default">{ingredient.name}</Typography>
+        <Typography variant="default">{ingredient.name}</Typography>
       </div>
     </Link>
   );

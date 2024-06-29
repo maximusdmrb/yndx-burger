@@ -1,0 +1,12 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, calc(50% - 20px));
+  grid-template-rows: 100%;
+  gap: 40px;
+  width: 100%;
+  .col {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+}

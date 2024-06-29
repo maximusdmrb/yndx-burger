@@ -10,8 +10,8 @@ export default function IngredientDetails() {
   const ingredient = useTypedSelector((store) => store.ings.ingredients.find((i) => i._id === id));
   return (
     ingredient && (
-      <div className={!background ? styles.page : ""}>
-        {!background && <Typography variants="large">Детали ингредиента</Typography>}
+      <div className={!background ? styles.page : styles.center}>
+        {!background && <Typography variant="large">Детали ингредиента</Typography>}
         <img src={ingredient.image_large} alt={ingredient.name} title={ingredient.name} />
         <Typography className="mb-5" variants="medium">
           {ingredient.name}
@@ -19,19 +19,19 @@ export default function IngredientDetails() {
         <div className={styles.info}>
           <div className="info-item">
             <Typography>Калории,ккал</Typography>
-            <Typography variants="digits">{ingredient.calories}</Typography>
+            <Typography variant="digits">{ingredient.calories}</Typography>
           </div>
           <div className="info-item">
             <Typography>Белки, г</Typography>
-            <Typography variants="digits">{ingredient.proteins}</Typography>
+            <Typography variant="digits">{ingredient.proteins}</Typography>
           </div>
           <div className="info-item">
             <Typography>Жиры, г</Typography>
-            <Typography variants="digits">{ingredient.fat}</Typography>
+            <Typography variant="digits">{ingredient.fat}</Typography>
           </div>
           <div className="info-item">
             <Typography>Углеводы, г</Typography>
-            <Typography variants="digits">{ingredient.carbohydrates}</Typography>
+            <Typography variant="digits">{ingredient.carbohydrates}</Typography>
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ export default function AppHeader() {
             <MenuLink icon={BurgerIcon} to="/">
               Конструктор
             </MenuLink>
-            <MenuLink icon={ListIcon} to="/list">
+            <MenuLink icon={ListIcon} to="/feed">
               Лента заказов
             </MenuLink>
           </nav>

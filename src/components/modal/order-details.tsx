@@ -7,7 +7,7 @@ export default function OrderDetails() {
   return loading ? (
     <>
       <img src="/loader.svg" alt="loading..." />
-      <Typography variants="medium" className="mt-15">
+      <Typography variant="medium" className="mt-15">
         Оформляем заказ
       </Typography>
     </>
@@ -16,7 +16,7 @@ export default function OrderDetails() {
       <Typography className={styles.order + " mb-8 mt-8"} variants="digits_large">
         {error ? "Упс..." : order?.number}
       </Typography>
-      <Typography variants="medium" className="mb-15">
+      <Typography variant="medium" className="mb-15">
         {error ? "Произошла ошибка, попробуйте снова" : "идентификатор заказа"}
       </Typography>
       {!error && (

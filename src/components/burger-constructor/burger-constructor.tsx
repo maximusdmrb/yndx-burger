@@ -47,7 +47,7 @@ export default function BurgerConstructor() {
     <>
       <Burger />
       <div className={styles.total + " mt-10 mr-6"} style={{ opacity: totalPrice ? 1 : 0.5 }}>
-        <Typography variants="digits_medium">
+        <Typography variant="digits_medium">
           {totalPrice}
           <CurrencyIcon type="primary" />
         </Typography>

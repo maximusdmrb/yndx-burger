@@ -1,0 +1,9 @@
+.card {
+  padding: 1.5rem;
+  background: #1c1c21;
+  border-radius: 2rem;
+  .head {
+    display: flex;
+    justify-content: space-between;
+  }
+}
