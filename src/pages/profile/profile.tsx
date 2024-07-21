@@ -2,13 +2,13 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import cn from "../../utils/cn";
 import styles from "./profile.module.scss";
 import { FocusEvent, FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
 import { editUser } from "../../services/slices/user-slice";
-import { store } from "../../services/store";
 import useForm from "../../hooks/use-form";
 
 export default function Profile() {
-  const { user, isLoading } = useTypedSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const { user, isLoading } = useSelector((store) => store.user);
   if (!user) return;
   const { values, onChange, setValues } = useForm({ ...user, password: "*******" });
 
@@ -53,7 +53,7 @@ export default function Profile() {
     for (const key in changedFileds) {
       if (!changedFileds[key as keyof typeof changedFileds]) delete sentData[key as keyof typeof changedFileds];
     }
-    store.dispatch(editUser(sentData));
+    dispatch(editUser(sentData));
   };
   return (
     <form onSubmit={handleChangeSubmit}>

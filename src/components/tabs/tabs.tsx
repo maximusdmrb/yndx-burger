@@ -1,5 +1,5 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useSelector } from "../../hooks/use-typed-selector";
 
 export const renderTypesIng = {
   bun: "Булки",
@@ -9,7 +9,7 @@ export const renderTypesIng = {
 export type CategoryIngredient = keyof typeof renderTypesIng;
 
 export default function Tabs({ tabs, onTabClick }: { tabs: CategoryIngredient[]; onTabClick: (type: CategoryIngredient) => void }) {
-  const activeTab = useTypedSelector((store) => store.tab);
+  const activeTab = useSelector((store) => store.tab);
   return (
     <div className="mt-5 mb-10" style={{ display: "flex" }}>
       {tabs.map((type) => (

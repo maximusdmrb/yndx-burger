@@ -1,7 +1,7 @@
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import styles from "./constructor.module.scss";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useSelector } from "../../hooks/use-typed-selector";
 
 import Typography from "../../components/typography/typography";
 import { DndProvider } from "react-dnd";
@@ -9,7 +9,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import CenterLayout from "../../layout/center-layout";
 
 export default function Constructor() {
-  const { isLoading, ingredients, error } = useTypedSelector((store) => store.ings);
+  const { isLoading, ingredients, error } = useSelector((store) => store.ings);
 
   if (isLoading && !ingredients.length)
     return (

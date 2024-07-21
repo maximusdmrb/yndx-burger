@@ -2,20 +2,20 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import Typography from "../../components/typography/typography";
 import styles from "./auth.module.scss";
 import { Link, useLocation } from "react-router-dom";
-import { store } from "../../services/store";
 import { register } from "../../services/slices/user-slice";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
 import useForm from "../../hooks/use-form";
 
 export default function Register() {
   const { values, onChange } = useForm({ name: "", password: "", email: "" });
 
-  const isLoading = useTypedSelector((store) => store.user.isLoading);
+  const isLoading = useSelector((store) => store.user.isLoading);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    store.dispatch(register(values)).then((action) => {
+    dispatch(register(values)).then((action) => {
       if (action.payload.success) {
         localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);

@@ -1,24 +1,22 @@
+import { useEffect } from "react";
 import Order from "../../components/order/order";
 import Typography from "../../components/typography/typography";
+import { socket, useGetFeedQuery } from "../../services/feed/api";
 import styles from "./feed.module.scss";
 export default function Feed() {
-  const mockOrder = {
-    _id: "65d320e897ede0001d05cd57",
-    ingredients: ["643d69a5c3f7b9001cfa093d", "643d69a5c3f7b9001cfa093e", "643d69a5c3f7b9001cfa093d"],
-    owner: "6580932787899c001b824179",
-    status: "done",
-    name: "Флюоресцентный люминесцентный бургер",
-    createdAt: "2024-02-19T09:35:36.239Z",
-    updatedAt: "2024-02-19T09:35:36.815Z",
-    number: 34535,
-    __v: 0,
-  };
-
+  const { data } = useGetFeedQuery(null, {});
+  useEffect(() => {
+    return () => {
+      socket && socket.close();
+    };
+  }, []);
   return (
-    <div className={styles.grid + " pb-10 "}>
+    <div className={styles.grid + "  pb-10 "}>
       <div className={styles.col + " pt-10"}>
-        <Typography variant="large">Лента заказов</Typography>
-        <Order order={mockOrder} />
+        <Typography variant="large" className="mb-10">
+          Лента заказов
+        </Typography>
+        <div className={styles.list + " custom-scroll"}>{data && data.map((order) => <Order key={order._id} order={order} />)}</div>
       </div>
       <div className={styles.col + " pl-4 pt-25"}>Готовы и в работе</div>
     </div>

@@ -1,13 +1,14 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
 import { Ingredient } from "../../interfaces";
 import { setBun } from "../../services/slices/constructor-slice";
 import { useDrop } from "react-dnd";
-import { store } from "../../services/store";
 
 const Bun = ({ pos = "top" }: { pos?: "top" | "bottom" }) => {
+  const dispatch = useDispatch();
+
   const handleDropBun = (ingredient: Ingredient) => {
-    store.dispatch(setBun(ingredient));
+    dispatch(setBun(ingredient));
   };
 
   const [{ isOver }, targetBun] = useDrop({
@@ -20,7 +21,7 @@ const Bun = ({ pos = "top" }: { pos?: "top" | "bottom" }) => {
     }),
   });
 
-  const { bun, dragIngredient } = useTypedSelector((store) => store.burger);
+  const { bun, dragIngredient } = useSelector((store) => store.burger);
   const className = dragIngredient && dragIngredient?.type === "bun" ? (isOver ? "glowover" : "glow") : "";
 
   return bun ? (

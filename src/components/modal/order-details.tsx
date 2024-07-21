@@ -1,9 +1,9 @@
 import styles from "./modal.module.scss";
 import Typography from "../typography/typography";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useSelector } from "../../hooks/use-typed-selector";
 
 export default function OrderDetails() {
-  const { loading, error, order } = useTypedSelector((store) => store.order);
+  const { loading, error, order } = useSelector((store) => store.order);
   return loading ? (
     <>
       <img src="/loader.svg" alt="loading..." />
@@ -13,7 +13,7 @@ export default function OrderDetails() {
     </>
   ) : (
     <>
-      <Typography className={styles.order + " mb-8 mt-8"} variants="digits_large">
+      <Typography className={styles.order + " mb-8 mt-8"} variant="digits_large">
         {error ? "Упс..." : order?.number}
       </Typography>
       <Typography variant="medium" className="mb-15">

@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect } from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "./modal-overlay";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useSelector } from "../../hooks/use-typed-selector";
 
 const modalRoot = document.getElementById("modal") as HTMLElement;
 
@@ -10,7 +10,7 @@ interface IModalProps {
   onClose: () => void;
 }
 export default function Modal({ title, onClose, children }: PropsWithChildren<IModalProps>) {
-  const loading = useTypedSelector((store) => store.order.loading);
+  const loading = useSelector((store) => store.order.loading);
   const closeEsc = (e: KeyboardEvent) => {
     if (e.key && e.key !== "Escape") return;
     console.log("esc");

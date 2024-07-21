@@ -21,15 +21,17 @@ import { ingredientsQuery } from "./services/slices/ingredients-slice";
 import ProfileLayout from "./layout/profile-layout/profile-layout";
 import { getUser } from "./services/slices/user-slice";
 import Feed from "./pages/feed/feed";
+import { useDispatch } from "./hooks/use-typed-selector";
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const background = location.state && location.state.background;
+  const dispatch = useDispatch();
   useEffect(() => {
-    store.dispatch(ingredientsQuery());
-    localStorage.getItem("accessToken") && store.dispatch(getUser());
+    dispatch(ingredientsQuery());
+    localStorage.getItem("accessToken") && dispatch(getUser());
   }, []);
   const handleCloseModal = () => {
     navigate(-1);

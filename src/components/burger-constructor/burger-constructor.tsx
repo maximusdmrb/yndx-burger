@@ -5,19 +5,19 @@ import { useCallback, useEffect, useMemo } from "react";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/order-details";
 import Burger from "./burger";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
-import { store } from "../../services/store";
+import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
 import { closeOrder, orderQuery } from "../../services/slices/order-slice";
 import { clearBurger } from "../../services/slices/constructor-slice";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function BurgerConstructor() {
-  const { user } = useTypedSelector((store) => store.user);
-  const { bun, selectedIngredients } = useTypedSelector((store) => store.burger);
-  const { error, loading, order } = useTypedSelector((store) => store.order);
+  const { user } = useSelector((store) => store.user);
+  const { bun, selectedIngredients } = useSelector((store) => store.burger);
+  const { error, loading, order } = useSelector((store) => store.order);
 
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const bunPrice = bun ? bun.price * 2 : 0;
   const totalPrice = useMemo(() => selectedIngredients.reduce((acc, cur) => acc + cur.price, bunPrice), [bunPrice, selectedIngredients]);
@@ -27,13 +27,13 @@ export default function BurgerConstructor() {
       localStorage.setItem("order", "true");
       return navigate("/login", { state: location.state });
     }
-    bun && store.dispatch(orderQuery([bun?._id, ...selectedIngredients.map((ing) => ing._id), bun?._id]));
+    bun && dispatch(orderQuery([bun?._id, ...selectedIngredients.map((ing) => ing._id), bun?._id]));
     localStorage.removeItem("order");
   }, [bun, selectedIngredients]);
 
   const handleCloseModal = useCallback(() => {
-    store.dispatch(closeOrder());
-    !error && store.dispatch(clearBurger());
+    dispatch(closeOrder());
+    !error && dispatch(clearBurger());
   }, [loading]);
   useEffect(() => {
     localStorage.getItem("order") && handleOrder();

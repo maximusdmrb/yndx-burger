@@ -5,9 +5,11 @@ import IngredientCard from "./ingredient-card/ingredient-card";
 import { UIEvent, useEffect, useRef, useState } from "react";
 import { switchTab } from "../../services/slices/tab-slice";
 import { Ingredient } from "../../interfaces";
-import { store } from "../../services/store";
+import { useDispatch } from "../../hooks/use-typed-selector";
 
 export default function BurgerIngredients({ ingredients }: { ingredients: Ingredient[] }) {
+  const dispatch = useDispatch();
+
   const [_, setIngredientDetail] = useState<Ingredient | null>(null);
   const typesIngredient = [...new Set(ingredients.map((ingredient) => ingredient.type))];
 
@@ -19,7 +21,7 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
       if (top >= categoryTop && top < categoryBottom) return true;
       return false;
     });
-    if (categoryBlock?.dataset.type) store.dispatch(switchTab(categoryBlock.dataset.type as CategoryIngredient));
+    if (categoryBlock?.dataset.type) dispatch(switchTab(categoryBlock.dataset.type as CategoryIngredient));
   };
 
   const scrollBlock = useRef<HTMLDivElement>(null);
@@ -31,7 +33,7 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
     }
   };
   useEffect(() => {
-    store.dispatch(switchTab("bun"));
+    dispatch(switchTab("bun"));
   }, []);
 
   return (
@@ -40,7 +42,7 @@ export default function BurgerIngredients({ ingredients }: { ingredients: Ingred
       <div className={styles.list + " custom-scroll"} ref={scrollBlock} onScroll={setActiveTab}>
         {typesIngredient.map((type) => (
           <div key={type} data-type={type}>
-            <Typography className={`${styles.type}`} variants="medium">
+            <Typography className={`${styles.type}`} variant="medium">
               {renderTypesIng[type]}
             </Typography>
             <div className={styles.items + " pt-6 pl-4 pr-3"}>

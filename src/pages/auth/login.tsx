@@ -3,23 +3,23 @@ import Typography from "../../components/typography/typography";
 import styles from "./auth.module.scss";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { store } from "../../services/store";
 import { clearError, login } from "../../services/slices/user-slice";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
+import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
 import useForm from "../../hooks/use-form";
 
 export default function Login() {
   const { values, onChange } = useForm({ email: "", password: "" });
-  const { isLoading, error } = useTypedSelector((store) => store.user);
+  const { isLoading, error } = useSelector((store) => store.user);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    store.dispatch(clearError());
+    dispatch(clearError());
   }, []);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    store.dispatch(login(values)).then((action) => {
+    dispatch(login(values)).then((action) => {
       if (action.payload?.success) {
         localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
