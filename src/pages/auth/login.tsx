@@ -4,7 +4,7 @@ import styles from "./auth.module.scss";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { clearError, login } from "../../services/slices/user-slice";
-import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
+import { useDispatch, useSelector } from "../../services/store";
 import useForm from "../../hooks/use-form";
 
 export default function Login() {
@@ -30,11 +30,31 @@ export default function Login() {
     <>
       <div className={`${styles.column}`}>
         <form onSubmit={handleLogin}>
-          {location.state?.reset && <Typography className={styles.msg}>Пароль изменен успешно</Typography>}
+          {location.state?.reset && (
+            <Typography className={styles.msg}>Пароль изменен успешно</Typography>
+          )}
           {error && <Typography className={styles.error}>{error}</Typography>}
           <Typography variant="medium">Вход</Typography>
-          <Input autoComplete="email" required type={"email"} placeholder={"Email"} value={values.email} onChange={onChange} name="email" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
-          <PasswordInput autoComplete="current-password" onChange={onChange} value={values.password} name={"password"} extraClass="mb-2" />
+          <Input
+            autoComplete="email"
+            required
+            type={"email"}
+            placeholder={"Email"}
+            value={values.email}
+            onChange={onChange}
+            name="email"
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            extraClass="ml-1"
+          />
+          <PasswordInput
+            autoComplete="current-password"
+            onChange={onChange}
+            value={values.password}
+            name={"password"}
+            extraClass="mb-2"
+          />
           <Button disabled={isLoading} extraClass={styles.btn} name="submit" htmlType="submit">
             {isLoading ? "Подождите..." : "Войти"}
           </Button>

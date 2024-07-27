@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect } from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "./modal-overlay";
-import { useSelector } from "../../hooks/use-typed-selector";
+import { useSelector } from "../../services/store";
 
 const modalRoot = document.getElementById("modal") as HTMLElement;
 
@@ -22,5 +22,8 @@ export default function Modal({ title, onClose, children }: PropsWithChildren<IM
       document.removeEventListener("keyup", closeEsc);
     };
   }, [loading]);
-  return ReactDOM.createPortal(<ModalOverlay title={title} onClick={onClose} children={children} />, modalRoot);
+  return ReactDOM.createPortal(
+    <ModalOverlay title={title} onClick={onClose} children={children} />,
+    modalRoot,
+  );
 }

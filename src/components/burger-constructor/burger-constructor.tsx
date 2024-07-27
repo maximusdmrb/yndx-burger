@@ -5,10 +5,10 @@ import { useCallback, useEffect, useMemo } from "react";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/order-details";
 import Burger from "./burger";
-import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
 import { closeOrder, orderQuery } from "../../services/slices/order-slice";
 import { clearBurger } from "../../services/slices/constructor-slice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "../../services/store";
 
 export default function BurgerConstructor() {
   const { user } = useSelector((store) => store.user);
@@ -20,7 +20,10 @@ export default function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const bunPrice = bun ? bun.price * 2 : 0;
-  const totalPrice = useMemo(() => selectedIngredients.reduce((acc, cur) => acc + cur.price, bunPrice), [bunPrice, selectedIngredients]);
+  const totalPrice = useMemo(
+    () => selectedIngredients.reduce((acc, cur) => acc + cur.price, bunPrice),
+    [bunPrice, selectedIngredients],
+  );
 
   const handleOrder = useCallback(() => {
     if (!user) {
@@ -51,7 +54,12 @@ export default function BurgerConstructor() {
           {totalPrice}
           <CurrencyIcon type="primary" />
         </Typography>
-        <Button disabled={loading || !bun || !selectedIngredients.length} onClick={handleOrder} htmlType="button" type="primary" size="large">
+        <Button
+          disabled={loading || !bun || !selectedIngredients.length}
+          onClick={handleOrder}
+          htmlType="button"
+          type="primary"
+          size="large">
           Оформить заказ
         </Button>
       </div>

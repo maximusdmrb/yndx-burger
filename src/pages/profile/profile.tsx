@@ -1,8 +1,13 @@
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  EmailInput,
+  Input,
+  PasswordInput,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "../../utils/cn";
 import styles from "./profile.module.scss";
 import { FocusEvent, FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
+import { useDispatch, useSelector } from "../../services/store";
 import { editUser } from "../../services/slices/user-slice";
 import useForm from "../../hooks/use-form";
 
@@ -44,14 +49,17 @@ export default function Profile() {
   };
   useEffect(() => {
     if (!refName.current) return;
-    disabledName ? refName.current?.classList.add("input__textfield-disabled") : refName.current?.classList.remove("input__textfield-disabled");
+    disabledName
+      ? refName.current?.classList.add("input__textfield-disabled")
+      : refName.current?.classList.remove("input__textfield-disabled");
   }, [disabledName]);
 
   const handleChangeSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const sentData = { ...values };
     for (const key in changedFileds) {
-      if (!changedFileds[key as keyof typeof changedFileds]) delete sentData[key as keyof typeof changedFileds];
+      if (!changedFileds[key as keyof typeof changedFileds])
+        delete sentData[key as keyof typeof changedFileds];
     }
     dispatch(editUser(sentData));
   };
@@ -71,12 +79,30 @@ export default function Profile() {
           icon="EditIcon"
           onIconClick={onEditName}
         />
-        <EmailInput onChange={onChange} style={{ color: changedFileds.email ? "#fff" : "#8585AD" }} value={values.email || ""} name={"email"} isIcon={true} />
-        <PasswordInput onFocus={handleStartEdit} onBlurCapture={handleEndEdit} onChange={onChange} value={values.password} style={{ color: changedFileds.password ? "#fff" : "#8585AD" }} name={"password"} icon="EditIcon" />
+        <EmailInput
+          onChange={onChange}
+          style={{ color: changedFileds.email ? "#fff" : "#8585AD" }}
+          value={values.email || ""}
+          name={"email"}
+          isIcon={true}
+        />
+        <PasswordInput
+          onFocus={handleStartEdit}
+          onBlurCapture={handleEndEdit}
+          onChange={onChange}
+          value={values.password}
+          style={{ color: changedFileds.password ? "#fff" : "#8585AD" }}
+          name={"password"}
+          icon="EditIcon"
+        />
       </div>
       {isChanged && (
         <div className="mt-10">
-          <Button disabled={!isChanged || isLoading} extraClass="mr-5" htmlType="submit" onClick={() => console.log("click")}>
+          <Button
+            disabled={!isChanged || isLoading}
+            extraClass="mr-5"
+            htmlType="submit"
+            onClick={() => console.log("click")}>
             Сохранить
           </Button>
           <Button htmlType="button" onClick={() => setValues({ ...user, password: "*******" })}>

@@ -5,10 +5,13 @@ import { HTMLAttributes, useMemo } from "react";
 import { Ingredient } from "../../../interfaces";
 import { useDrag } from "react-dnd";
 import { setDragIngredient } from "../../../services/slices/constructor-slice";
-import { useDispatch, useSelector } from "../../../hooks/use-typed-selector";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "../../../services/store";
 
-export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<HTMLDivElement> & { ingredient: Ingredient }) {
+export default function IngredientCard({
+  ingredient,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { ingredient: Ingredient }) {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -21,7 +24,13 @@ export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<
   });
   const { bun, selectedIngredients } = useSelector((store) => store.burger);
 
-  const qty = useMemo(() => (ingredient.type === "bun" && bun?._id === ingredient._id ? 2 : selectedIngredients.filter((ing) => ing._id === ingredient._id).length), [bun, selectedIngredients]);
+  const qty = useMemo(
+    () =>
+      ingredient.type === "bun" && bun?._id === ingredient._id
+        ? 2
+        : selectedIngredients.filter((ing) => ing._id === ingredient._id).length,
+    [bun, selectedIngredients],
+  );
 
   const handleOnDrag = () => {
     dispatch(setDragIngredient(ingredient));
@@ -31,7 +40,14 @@ export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<
   };
   return (
     <Link to={`/ingredients/${ingredient._id}`} state={{ background: location }}>
-      <div className={styles.card + " noselect"} {...props} draggable ref={dragRef} onDragEnd={handleOnDragEnd} onDrag={handleOnDrag} style={{ opacity }}>
+      <div
+        className={styles.card + " noselect"}
+        {...props}
+        draggable
+        ref={dragRef}
+        onDragEnd={handleOnDragEnd}
+        onDrag={handleOnDrag}
+        style={{ opacity }}>
         {!!qty && <Counter count={qty} size="default" extraClass="m-1" />}
         <img src={ingredient.image} title={ingredient.name} alt={ingredient.name} />
         <div className={styles.price}>

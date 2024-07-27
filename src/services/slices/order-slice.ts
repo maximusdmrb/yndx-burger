@@ -1,8 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api";
+import { Order } from "../../types";
 
 export const orderQuery = createAsyncThunk("order/orderQuery", async (ingredients: string[]) => {
   return api.order(ingredients);
+});
+export const getOrderQuery = createAsyncThunk("order/getOrderQuery", async (number: string) => {
+  return api.getOrder(number);
 });
 
 interface IStoreOrder {
@@ -13,6 +17,7 @@ interface IStoreOrder {
   success: boolean;
   loading: boolean;
   error: boolean;
+  selectedOrder?: Order | null;
 }
 
 const initialState: IStoreOrder = {
@@ -49,6 +54,15 @@ export const orderSlice = createSlice({
         show: true,
       };
     });
+
+    builder.addCase(
+      getOrderQuery.fulfilled,
+      (state, action: PayloadAction<{ orders: Order[] }>) => {
+        console.log(action.payload);
+
+        return { ...state, selectedOrder: action.payload.orders[0] };
+      },
+    );
   },
 });
 

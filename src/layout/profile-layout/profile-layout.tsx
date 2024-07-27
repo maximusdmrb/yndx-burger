@@ -3,7 +3,7 @@ import Typography from "../../components/typography/typography";
 import cn from "../../utils/cn";
 import styles from "./profile-layout.module.scss";
 import { logout } from "../../services/slices/user-slice";
-import { useDispatch } from "../../hooks/use-typed-selector";
+import { useDispatch } from "../../services/store";
 
 export default function ProfileLayout() {
   const dispatch = useDispatch();

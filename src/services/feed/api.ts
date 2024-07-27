@@ -1,54 +1,25 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { FeedRepsonse } from "../../types";
+import api from "../api";
 
-export const baseUrl = "wss://norma.nomoreparties.space/orders/all";
-
-export type Order = {
-  _id: string;
-  ingredients: string[];
-  owner: string;
-  status: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  number: number;
-  __v: number;
-};
-type Feed = Order[];
-
-export let socket: WebSocket | undefined;
+export let feedSocket: WebSocket;
 
 export const feedApi = createApi({
   reducerPath: "feedApi",
   baseQuery: fetchBaseQuery(),
-  endpoints: (builder) => ({
-    getFeed: builder.query<Feed, null>({
-      queryFn: () => ({ data: [] }),
-      async onCacheEntryAdded(_, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
-        console.log(true);
+  refetchOnMountOrArgChange: true,
+  endpoints: (build) => ({
+    getFeed: build.query<FeedRepsonse, void>({
+      queryFn: () => ({
+        data: { orders: [], loading: true, success: false, total: 0, totalToday: 0 },
+      }),
+      async onQueryStarted(_, { updateCachedData }) {
+        console.log("onCacheEntryradd");
 
-        try {
-          await cacheDataLoaded;
-          socket = new WebSocket("wss://norma.nomoreparties.space/orders/all");
-
-          socket.onopen = (msg) => {
-            console.log("open");
-          };
-          socket.onclose = () => {
-            console.log("close");
-          };
-
-          socket.onmessage = (msg) => {
-            try {
-              const feed = JSON.parse(msg.data).orders;
-              updateCachedData(() => {
-                return feed;
-              });
-              console.log("update");
-            } catch {}
-          };
-        } catch (error) {
-          console.log(error);
-        }
+        feedSocket = api.socketConnect(
+          "wss://norma.nomoreparties.space/orders/all",
+          updateCachedData,
+        );
       },
     }),
   }),

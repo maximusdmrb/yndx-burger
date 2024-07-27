@@ -1,6 +1,6 @@
 import styles from "./modal.module.scss";
 import Typography from "../typography/typography";
-import { useSelector } from "../../hooks/use-typed-selector";
+import { useSelector } from "../../services/store";
 import { useLocation, useParams } from "react-router-dom";
 
 export default function IngredientDetails() {
@@ -16,8 +16,6 @@ export default function IngredientDetails() {
         <Typography className="mb-5" variant="medium">
           {ingredient.name}
         </Typography>
-        <Typography variant="default">{ingredient._id}</Typography>
-
         <div className={styles.info}>
           <div className="info-item">
             <Typography color="secondary">Калории,ккал</Typography>

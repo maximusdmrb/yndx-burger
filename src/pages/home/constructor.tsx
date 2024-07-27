@@ -1,7 +1,7 @@
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import styles from "./constructor.module.scss";
-import { useSelector } from "../../hooks/use-typed-selector";
+import { useSelector } from "../../services/store";
 
 import Typography from "../../components/typography/typography";
 import { DndProvider } from "react-dnd";
@@ -24,7 +24,9 @@ export default function Constructor() {
           <Typography variant="large">{error || "Соберите бургер"}</Typography>
           {!isLoading && !error && <BurgerIngredients ingredients={ingredients} />}
         </div>
-        <div className={styles.col + " pl-4 pt-25"}>{!isLoading && !error && <BurgerConstructor />}</div>
+        <div className={styles.col + " pl-4 pt-25"}>
+          {!isLoading && !error && <BurgerConstructor />}
+        </div>
       </div>
     </DndProvider>
   );

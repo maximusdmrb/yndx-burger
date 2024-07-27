@@ -1,9 +1,14 @@
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  EmailInput,
+  Input,
+  PasswordInput,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import Typography from "../../components/typography/typography";
 import styles from "./auth.module.scss";
 import { Link, useLocation } from "react-router-dom";
 import { register } from "../../services/slices/user-slice";
-import { useDispatch, useSelector } from "../../hooks/use-typed-selector";
+import { useDispatch, useSelector } from "../../services/store";
 import useForm from "../../hooks/use-form";
 
 export default function Register() {
@@ -28,9 +33,33 @@ export default function Register() {
       <div className={`${styles.column}`}>
         <form onSubmit={handleRegister}>
           <Typography variant="medium">Регистрация</Typography>
-          <Input autoComplete="given-name" required type={"text"} placeholder={"Имя"} value={values.name} onChange={onChange} name="name" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
-          <EmailInput autoComplete="email" onChange={onChange} value={values.email} name={"email"} isIcon={false} />
-          <PasswordInput autoComplete="new-password" onChange={onChange} value={values.password} name={"password"} extraClass="mb-2" />
+          <Input
+            autoComplete="given-name"
+            required
+            type={"text"}
+            placeholder={"Имя"}
+            value={values.name}
+            onChange={onChange}
+            name="name"
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            extraClass="ml-1"
+          />
+          <EmailInput
+            autoComplete="email"
+            onChange={onChange}
+            value={values.email}
+            name={"email"}
+            isIcon={false}
+          />
+          <PasswordInput
+            autoComplete="new-password"
+            onChange={onChange}
+            value={values.password}
+            name={"password"}
+            extraClass="mb-2"
+          />
           <Button disabled={isLoading} extraClass={styles.btn} htmlType="submit">
             {isLoading ? "Подождите..." : "Зарегистрироваться"}
           </Button>
