@@ -13,7 +13,6 @@ export default function Modal({ title, onClose, children }: PropsWithChildren<IM
   const loading = useSelector((store) => store.order.loading);
   const closeEsc = (e: KeyboardEvent) => {
     if (e.key && e.key !== "Escape") return;
-    console.log("esc");
     onClose();
   };
   useEffect(() => {

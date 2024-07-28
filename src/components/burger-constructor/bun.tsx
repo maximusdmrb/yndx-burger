@@ -31,7 +31,7 @@ const Bun = ({ pos = "top" }: { pos?: "top" | "bottom" }) => {
         extraClass="noselect"
         type={pos}
         isLocked
-        text={bun.name}
+        text={bun.name + (pos === "top" ? " (верх)" : " (низ)")}
         price={bun.price}
         thumbnail={bun.image_mobile}
       />

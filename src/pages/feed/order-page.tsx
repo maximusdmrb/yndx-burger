@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { FeedRepsonse, Order } from "../../types";
 import Typography from "../../components/typography/typography";
@@ -26,7 +26,6 @@ export default function OrderPage() {
     data = state.ordersApi.queries["getOrders(undefined)"]?.data as FeedRepsonse;
     if (data && data.orders) {
       order = data.orders.find((ord: Order) => ord.number == +number);
-      console.log(order);
       if (order) return order;
     }
     return state.order.selectedOrder;

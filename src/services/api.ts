@@ -27,32 +27,24 @@ class Api {
   editUser = async (body: Partial<RegisterData>) => queryWithToken(GET_USER, "PATCH", body);
   order = async (ingredients: string[]) => queryWithToken(POST_ORDERS, "POST", { ingredients });
 
-  socketConnect = (url: string, updateCachedData: (arg: any) => void, withToken = false) => {
+  socketConnect = (url: string, onmessage: (arg: any) => void, withToken = false) => {
     const token = localStorage.getItem("accessToken")?.split(" ")[1];
     let socket: WebSocket = new WebSocket(`${url}${withToken ? `?token=${token}` : ""}`);
 
-    socket.onopen = () => {
-      console.log("open", url);
-    };
-    socket.onclose = () => {
-      console.log("close ", url);
-    };
+    socket.onopen = () => console.log("open", url);
+
+    socket.onclose = () => console.log("close ", url);
+
     socket.onmessage = async (msg) => {
       try {
         const data = JSON.parse(msg.data);
-        if (data.message === "Invalid or missing token") {
+        if (withToken && data.message === "Invalid or missing token") {
           socket.close();
           await refreshToken();
-          this.socketConnect(url, updateCachedData, withToken);
+          this.socketConnect(url, onmessage, withToken);
           return;
         }
-        updateCachedData(() => {
-          return {
-            ...data,
-            orders: withToken ? data.orders.reverse() : data.orders,
-            loading: false,
-          };
-        });
+        onmessage(data);
       } catch (error) {
         console.log(error);
       }

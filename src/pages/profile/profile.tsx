@@ -98,11 +98,7 @@ export default function Profile() {
       </div>
       {isChanged && (
         <div className="mt-10">
-          <Button
-            disabled={!isChanged || isLoading}
-            extraClass="mr-5"
-            htmlType="submit"
-            onClick={() => console.log("click")}>
+          <Button disabled={!isChanged || isLoading} extraClass="mr-5" htmlType="submit">
             Сохранить
           </Button>
           <Button htmlType="button" onClick={() => setValues({ ...user, password: "*******" })}>

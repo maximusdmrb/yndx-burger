@@ -58,8 +58,6 @@ export const orderSlice = createSlice({
     builder.addCase(
       getOrderQuery.fulfilled,
       (state, action: PayloadAction<{ orders: Order[] }>) => {
-        console.log(action.payload);
-
         return { ...state, selectedOrder: action.payload.orders[0] };
       },
     );
