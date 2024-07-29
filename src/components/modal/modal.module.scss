@@ -8,7 +8,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 10;
   cursor: pointer;
   > div {
     cursor: auto;
@@ -19,6 +19,9 @@
   padding: 40px 40px 60px;
   background-color: var(--bg-secondary);
   border-radius: 40px;
+}
+.center {
+  text-align: center;
 }
 .modal,
 .page {
@@ -42,15 +45,13 @@
   .orderhead {
     justify-content: right;
   }
-  .order {
-    text-shadow: #4c4cff 1px 0 20px;
-  }
+
   .info {
     display: flex;
     gap: 40px;
     color: var(--text-secondary);
+    justify-content: center;
     > div {
-      text-align: center;
       > p:first-child {
         margin-bottom: 10px;
       }

@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useTypedSelector } from "../hooks/use-typed-selector";
+import { useSelector } from "../services/store";
 import CenterLayout from "../layout/center-layout";
 
 type ProtectedRouteProps = {
@@ -8,7 +8,7 @@ type ProtectedRouteProps = {
 };
 
 export function ProtectedRoute({ forGuest = false, element }: ProtectedRouteProps) {
-  const { user, isAuthChecked, isLoading } = useTypedSelector((store) => store.user);
+  const { user, isAuthChecked, isLoading } = useSelector((store) => store.user);
   const location = useLocation();
 
   /* Еще не прошла проверка токена */
@@ -34,5 +34,9 @@ export function ProtectedRoute({ forGuest = false, element }: ProtectedRouteProp
   return element;
 }
 
-export const PrivateRoute = ({ ...props }: Omit<ProtectedRouteProps, "forGuest">) => <ProtectedRoute {...props} />;
-export const GuestRoute = ({ ...props }: Omit<ProtectedRouteProps, "forGuest">) => <ProtectedRoute {...props} forGuest />;
+export const PrivateRoute = ({ ...props }: Omit<ProtectedRouteProps, "forGuest">) => (
+  <ProtectedRoute {...props} />
+);
+export const GuestRoute = ({ ...props }: Omit<ProtectedRouteProps, "forGuest">) => (
+  <ProtectedRoute {...props} forGuest />
+);

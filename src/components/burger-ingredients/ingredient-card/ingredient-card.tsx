@@ -4,13 +4,16 @@ import styles from "./ingredient-card.module.scss";
 import { HTMLAttributes, useMemo } from "react";
 import { Ingredient } from "../../../interfaces";
 import { useDrag } from "react-dnd";
-import { store } from "../../../services/store";
 import { setDragIngredient } from "../../../services/slices/constructor-slice";
-import { useTypedSelector } from "../../../hooks/use-typed-selector";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "../../../services/store";
 
-export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<HTMLDivElement> & { ingredient: Ingredient }) {
+export default function IngredientCard({
+  ingredient,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { ingredient: Ingredient }) {
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const [{ opacity }, dragRef] = useDrag({
     type: ingredient.type === "bun" ? "bun" : "other",
@@ -19,26 +22,39 @@ export default function IngredientCard({ ingredient, ...props }: HTMLAttributes<
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
-  const { bun, selectedIngredients } = useTypedSelector((store) => store.burger);
+  const { bun, selectedIngredients } = useSelector((store) => store.burger);
 
-  const qty = useMemo(() => (ingredient.type === "bun" && bun?._id === ingredient._id ? 2 : selectedIngredients.filter((ing) => ing._id === ingredient._id).length), [bun, selectedIngredients]);
+  const qty = useMemo(
+    () =>
+      ingredient.type === "bun" && bun?._id === ingredient._id
+        ? 2
+        : selectedIngredients.filter((ing) => ing._id === ingredient._id).length,
+    [bun, selectedIngredients],
+  );
 
   const handleOnDrag = () => {
-    store.dispatch(setDragIngredient(ingredient));
+    dispatch(setDragIngredient(ingredient));
   };
   const handleOnDragEnd = () => {
-    store.dispatch(setDragIngredient(null));
+    dispatch(setDragIngredient(null));
   };
   return (
     <Link to={`/ingredients/${ingredient._id}`} state={{ background: location }}>
-      <div className={styles.card + " noselect"} {...props} draggable ref={dragRef} onDragEnd={handleOnDragEnd} onDrag={handleOnDrag} style={{ opacity }}>
+      <div
+        className={styles.card + " noselect"}
+        {...props}
+        draggable
+        ref={dragRef}
+        onDragEnd={handleOnDragEnd}
+        onDrag={handleOnDrag}
+        style={{ opacity }}>
         {!!qty && <Counter count={qty} size="default" extraClass="m-1" />}
         <img src={ingredient.image} title={ingredient.name} alt={ingredient.name} />
         <div className={styles.price}>
-          <Typography variants="digits">{ingredient.price}</Typography>
+          <Typography variant="digits">{ingredient.price}</Typography>
           <CurrencyIcon type="primary" />
         </div>
-        <Typography variants="default">{ingredient.name}</Typography>
+        <Typography variant="default">{ingredient.name}</Typography>
       </div>
     </Link>
   );

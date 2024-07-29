@@ -1,7 +1,8 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
+import cn from "../../utils/cn";
 
 const typographyVariants = {
-  variants: {
+  variant: {
     default: "text_type_main-default",
     large: "text_type_main-large",
     medium: "text_type_main-medium",
@@ -11,12 +12,17 @@ const typographyVariants = {
     digits_medium: "text_type_digits-medium",
     digits_large: "text_type_digits-large",
   },
+  color: {
+    primary: "text-primary",
+    secondary: "text-secondary",
+  },
 };
-type TextVariants = keyof typeof typographyVariants.variants;
+type TextVariant = keyof typeof typographyVariants.variant;
+type ColorVariant = keyof typeof typographyVariants.color;
 
-export default function Typography({ variants = "default", children, className = "", ...props }: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>> & { variants?: TextVariants }) {
+export default function Typography({ variant = "default", color = "primary", children, className = "", ...props }: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>> & { variant?: TextVariant; color?: ColorVariant }) {
   return (
-    <p {...props} className={`text ${typographyVariants.variants[variants]} ${className}`}>
+    <p {...props} className={cn(`text`, typographyVariants.variant[variant], typographyVariants.color[color], className)}>
       {children}
     </p>
   );

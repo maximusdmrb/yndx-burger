@@ -35,7 +35,7 @@ export default function ResetPassword() {
       <div className={`${styles.column}`}>
         <form onSubmit={handleResetPassword}>
           {error && <Typography className={styles.error}>{error}</Typography>}
-          <Typography variants="medium">Восстановление пароля</Typography>
+          <Typography variant="medium">Восстановление пароля</Typography>
           <PasswordInput required onChange={onChange} value={values.password} name={"password"} extraClass="mb-2" />
           <Input required type={"text"} placeholder={"Код из письма"} value={values.token} onChange={onChange} name="token" error={false} errorText={"Ошибка"} size={"default"} extraClass="ml-1" />
           <Button disabled={isLoading} extraClass={styles.btn} htmlType="submit">
@@ -43,7 +43,7 @@ export default function ResetPassword() {
           </Button>
         </form>
         <div className="mt-15">
-          <Typography variants="inactive">
+          <Typography variant="inactive">
             Вспомнили пароль?{" "}
             <Link to="/login" state={location.state}>
               <Button htmlType="button" type="secondary" size="medium">

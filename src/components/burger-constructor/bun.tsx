@@ -1,13 +1,14 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useTypedSelector } from "../../hooks/use-typed-selector";
 import { Ingredient } from "../../interfaces";
 import { setBun } from "../../services/slices/constructor-slice";
 import { useDrop } from "react-dnd";
-import { store } from "../../services/store";
+import { useDispatch, useSelector } from "../../services/store";
 
 const Bun = ({ pos = "top" }: { pos?: "top" | "bottom" }) => {
+  const dispatch = useDispatch();
+
   const handleDropBun = (ingredient: Ingredient) => {
-    store.dispatch(setBun(ingredient));
+    dispatch(setBun(ingredient));
   };
 
   const [{ isOver }, targetBun] = useDrop({
@@ -20,12 +21,20 @@ const Bun = ({ pos = "top" }: { pos?: "top" | "bottom" }) => {
     }),
   });
 
-  const { bun, dragIngredient } = useTypedSelector((store) => store.burger);
-  const className = dragIngredient && dragIngredient?.type === "bun" ? (isOver ? "glowover" : "glow") : "";
+  const { bun, dragIngredient } = useSelector((store) => store.burger);
+  const className =
+    dragIngredient && dragIngredient?.type === "bun" ? (isOver ? "glowover" : "glow") : "";
 
   return bun ? (
     <div ref={targetBun} className={className}>
-      <ConstructorElement extraClass="noselect" type={pos} isLocked text={bun.name} price={bun.price} thumbnail={bun.image_mobile} />
+      <ConstructorElement
+        extraClass="noselect"
+        type={pos}
+        isLocked
+        text={bun.name + (pos === "top" ? " (верх)" : " (низ)")}
+        price={bun.price}
+        thumbnail={bun.image_mobile}
+      />
     </div>
   ) : (
     <div ref={targetBun} className={className}>

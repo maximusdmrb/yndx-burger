@@ -2,13 +2,14 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import Typography from "../../components/typography/typography";
 import cn from "../../utils/cn";
 import styles from "./profile-layout.module.scss";
-import { store } from "../../services/store";
 import { logout } from "../../services/slices/user-slice";
+import { useDispatch } from "../../services/store";
 
 export default function ProfileLayout() {
+  const dispatch = useDispatch();
   const location = useLocation();
   const handleLogout = () => {
-    store.dispatch(logout()).then(() => {
+    dispatch(logout()).then(() => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     });
@@ -30,7 +31,7 @@ export default function ProfileLayout() {
             <a onClick={handleLogout}>Выход</a>
           </li>
         </ul>
-        <Typography className="mt-20" variants="inactive">
+        <Typography className="mt-20" variant="inactive">
           В этом разделе вы можете изменить свои персональные данные
         </Typography>
       </nav>

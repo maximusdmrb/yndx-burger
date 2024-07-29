@@ -20,15 +20,22 @@ import IngredientDetails from "./components/modal/ingridient-details";
 import { ingredientsQuery } from "./services/slices/ingredients-slice";
 import ProfileLayout from "./layout/profile-layout/profile-layout";
 import { getUser } from "./services/slices/user-slice";
+import Feed from "./pages/feed/feed";
+import { useDispatch } from "./services/store";
+import OrderPage from "./pages/feed/order-page";
+import HistoryOrders from "./pages/profile/history-orders";
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const background = location.state && location.state.background;
+  const title = location.state && location.state.title;
+
+  const dispatch = useDispatch();
   useEffect(() => {
-    store.dispatch(ingredientsQuery());
-    localStorage.getItem("accessToken") && store.dispatch(getUser());
+    dispatch(ingredientsQuery());
+    localStorage.getItem("accessToken") && dispatch(getUser());
   }, []);
   const handleCloseModal = () => {
     navigate(-1);
@@ -41,11 +48,17 @@ const App = () => {
 
           <Route path="profile" element={<PrivateRoute element={<ProfileLayout />} />}>
             <Route index element={<Profile />} />
-            <Route path="orders" element={<>История заказов</>} />
+            <Route path="orders" element={<HistoryOrders />} />
           </Route>
+          <Route path="feed" element={<Feed />} />
 
           <Route element={<CenterLayout />}>
             <Route path="ingredients/:id" element={<IngredientDetails />} />
+            <Route path="feed/:number" element={<OrderPage />} />
+            <Route
+              path="profile/orders/:number"
+              element={<PrivateRoute element={<OrderPage />} />}
+            />
             {/* Auth Routes */}
             <Route path="login" element={<GuestRoute element={<Login />} />} />
             <Route path="register" element={<GuestRoute element={<Register />} />} />
@@ -66,6 +79,22 @@ const App = () => {
               </Modal>
             }
           />
+          <Route
+            path="feed/:number"
+            element={
+              <Modal title={(title && `#${title}`) || "Детали заказа"} onClose={handleCloseModal}>
+                <OrderPage />
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:number"
+            element={
+              <Modal title={(title && `#${title}`) || "Детали заказа"} onClose={handleCloseModal}>
+                <OrderPage />
+              </Modal>
+            }
+          />
         </Routes>
       )}
     </>
@@ -79,5 +108,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <App />
       </Router>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
