@@ -1,4 +1,4 @@
-# [YNDX STELLAR Burgers](https://mxmjs.nomorepartiesco.ru)
+# [YNDX STELLAR Burgers](https://mxmjs.nomorepartiesco.ru) (demo)
 
 ### Проектная работа в рамках курса ["React-разработчик"](https://practicum.yandex.ru/react/?from=catalog) от [Яндекс Практикума](https://practicum.yandex.ru)
 
