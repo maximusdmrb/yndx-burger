@@ -8,7 +8,7 @@ import cn from "../../utils/cn";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getFormatOrderDate } from "../../utils/date";
 import { Color, RenderStatus } from "../../components/order/order-card";
-import { getOrderQuery } from "../../services/slices/order-slice";
+import { getOrderQuery } from "../../services/actions";
 
 export default function OrderPage() {
   const location = useLocation();
@@ -40,9 +40,8 @@ export default function OrderPage() {
 
   let bun = 1;
   if (
-    order?.ingredients
-      .map((id) => ingredients.find((ing) => ing._id === id))
-      .filter((ing) => ing?.type === "bun").length === 1
+    order?.ingredients.map((id) => ingredients.find((ing) => ing._id === id)).filter((ing) => ing?.type === "bun")
+      .length === 1
   )
     bun = 2;
 
@@ -55,10 +54,7 @@ export default function OrderPage() {
       )}
       <div>
         <Typography variant="medium">{order.name}</Typography>
-        <Typography
-          style={{ color: Color[order.status as keyof typeof Color] }}
-          className="mt-2"
-          variant="small">
+        <Typography style={{ color: Color[order.status as keyof typeof Color] }} className="mt-2" variant="small">
           {RenderStatus[order.status as keyof typeof Color]}
         </Typography>
       </div>
@@ -96,7 +92,7 @@ export default function OrderPage() {
               (acc +=
                 ingredients.find((i) => i._id === curr)!.price *
                   (ingredients.find((i) => i._id === curr)!.type === "bun" ? bun : 1) || 0),
-            0,
+            0
           )}
           <CurrencyIcon type="primary" />
         </Typography>

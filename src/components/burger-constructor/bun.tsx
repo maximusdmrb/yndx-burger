@@ -22,11 +22,10 @@ const Bun = ({ pos = "top" }: { pos?: "top" | "bottom" }) => {
   });
 
   const { bun, dragIngredient } = useSelector((store) => store.burger);
-  const className =
-    dragIngredient && dragIngredient?.type === "bun" ? (isOver ? "glowover" : "glow") : "";
+  const className = dragIngredient && dragIngredient?.type === "bun" ? (isOver ? "glowover" : "glow") : "";
 
   return bun ? (
-    <div ref={targetBun} className={className}>
+    <div ref={targetBun} className={className} data-testid="drop_bun">
       <ConstructorElement
         extraClass="noselect"
         type={pos}
@@ -37,7 +36,7 @@ const Bun = ({ pos = "top" }: { pos?: "top" | "bottom" }) => {
       />
     </div>
   ) : (
-    <div ref={targetBun} className={className}>
+    <div ref={targetBun} className={className} data-testid="drop_bun">
       <div className={`constructor-element center noselect constructor-element_pos_${pos}`}>
         <p>Без булочки будет не то...</p>
       </div>

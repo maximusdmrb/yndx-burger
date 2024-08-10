@@ -1,15 +1,10 @@
-import {
-  Button,
-  EmailInput,
-  Input,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import Typography from "../../components/typography/typography";
 import styles from "./auth.module.scss";
 import { Link, useLocation } from "react-router-dom";
-import { register } from "../../services/slices/user-slice";
 import { useDispatch, useSelector } from "../../services/store";
 import useForm from "../../hooks/use-form";
+import { register } from "../../services/actions";
 
 export default function Register() {
   const { values, onChange } = useForm({ name: "", password: "", email: "" });
@@ -46,13 +41,7 @@ export default function Register() {
             size={"default"}
             extraClass="ml-1"
           />
-          <EmailInput
-            autoComplete="email"
-            onChange={onChange}
-            value={values.email}
-            name={"email"}
-            isIcon={false}
-          />
+          <EmailInput autoComplete="email" onChange={onChange} value={values.email} name={"email"} isIcon={false} />
           <PasswordInput
             autoComplete="new-password"
             onChange={onChange}

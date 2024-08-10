@@ -22,18 +22,16 @@ export default function Burger() {
   });
   const { dragIngredient, selectedIngredients } = useSelector((store) => store.burger);
   const className =
-    dragIngredient && !dragIngredient.nanoid && dragIngredient?.type !== "bun"
-      ? isOver
-        ? "glowover"
-        : "glow"
-      : "";
+    dragIngredient && !dragIngredient.nanoid && dragIngredient?.type !== "bun" ? (isOver ? "glowover" : "glow") : "";
 
   return (
     <div className={`${styles.burger} `}>
       <Bun />
       <div
         ref={targetOther}
-        className={`${styles.list} ${styles.scroll} custom-scroll ${className}`}>
+        data-testid="drop_other"
+        className={`${styles.list} ${styles.scroll} custom-scroll ${className}`}
+      >
         {selectedIngredients.length ? (
           selectedIngredients.map((selected, index) => (
             <IngredientElement sortIndex={index} key={selected.nanoid} ingredient={selected} />

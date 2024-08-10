@@ -12,14 +12,14 @@ export default function ModalOverlay({
 }: PropsWithChildren<React.HTMLProps<HTMLDivElement>>) {
   const isLoading = useSelector((store) => store.order.loading);
   return (
-    <div {...props} onClick={onClick} className={styles.overlay}>
+    <div {...props} onClick={onClick} data-testid="overlay_modal" className={styles.overlay}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <Typography variant={title?.includes("#") ? "digits" : "large"}>
+          <Typography variant={title?.includes("#") ? "digits" : "large"} data-testid="title-modal">
             {title ? title : " "}
           </Typography>
           {!isLoading && (
-            <div onClick={onClick}>
+            <div onClick={onClick} data-testid="close_modal">
               <CloseIcon type="primary" />
             </div>
           )}

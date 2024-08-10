@@ -3,9 +3,10 @@ import Typography from "../../components/typography/typography";
 import styles from "./auth.module.scss";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { clearError, login } from "../../services/slices/user-slice";
+import { clearError } from "../../services/slices/user-slice";
 import { useDispatch, useSelector } from "../../services/store";
 import useForm from "../../hooks/use-form";
+import { login } from "../../services/actions";
 
 export default function Login() {
   const { values, onChange } = useForm({ email: "", password: "" });
@@ -30,9 +31,7 @@ export default function Login() {
     <>
       <div className={`${styles.column}`}>
         <form onSubmit={handleLogin}>
-          {location.state?.reset && (
-            <Typography className={styles.msg}>Пароль изменен успешно</Typography>
-          )}
+          {location.state?.reset && <Typography className={styles.msg}>Пароль изменен успешно</Typography>}
           {error && <Typography className={styles.error}>{error}</Typography>}
           <Typography variant="medium">Вход</Typography>
           <Input

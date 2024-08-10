@@ -5,7 +5,7 @@ export const instance = axios.create();
 
 export const query = async <T>(url: string, method: Method = "GET", data?: T) => {
   try {
-    const res = await axios(url, data ? { data, method } : { method });
+    const res = method === "GET" ? await axios.get(url) : await axios.post(url, data);
     if (res.data) return res.data;
     return Promise.reject(`Произошла ошибка ${res.status}`);
   } catch (error) {
