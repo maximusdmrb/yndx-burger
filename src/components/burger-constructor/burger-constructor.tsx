@@ -5,30 +5,30 @@ import { useCallback, useEffect, useMemo } from "react";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/order-details";
 import Burger from "./burger";
-import { closeOrder, orderQuery } from "../../services/slices/order-slice";
+import { closeOrder } from "../../services/slices/order-slice";
 import { clearBurger } from "../../services/slices/constructor-slice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/store";
+import { orderQuery } from "../../services/actions";
 
 export default function BurgerConstructor() {
   const { user } = useSelector((store) => store.user);
   const { bun, selectedIngredients } = useSelector((store) => store.burger);
   const { error, loading, order } = useSelector((store) => store.order);
 
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const bunPrice = bun ? bun.price * 2 : 0;
   const totalPrice = useMemo(
     () => selectedIngredients.reduce((acc, cur) => acc + cur.price, bunPrice),
-    [bunPrice, selectedIngredients],
+    [bunPrice, selectedIngredients]
   );
 
   const handleOrder = useCallback(() => {
     if (!user) {
       localStorage.setItem("order", "true");
-      return navigate("/login", { state: location.state });
+      return navigate("/login", { state: { order: true } });
     }
     bun && dispatch(orderQuery([bun?._id, ...selectedIngredients.map((ing) => ing._id), bun?._id]));
     localStorage.removeItem("order");
@@ -38,9 +38,7 @@ export default function BurgerConstructor() {
     dispatch(closeOrder());
     !error && dispatch(clearBurger());
   }, [loading]);
-  useEffect(() => {
-    localStorage.getItem("order") && handleOrder();
-  }, []);
+
   useEffect(() => {
     localStorage.setItem("ingredients", JSON.stringify(selectedIngredients));
     localStorage.setItem("bun", JSON.stringify(bun));
@@ -59,7 +57,8 @@ export default function BurgerConstructor() {
           onClick={handleOrder}
           htmlType="button"
           type="primary"
-          size="large">
+          size="large"
+        >
           Оформить заказ
         </Button>
       </div>
