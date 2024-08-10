@@ -10,6 +10,7 @@ type ProtectedRouteProps = {
 export function ProtectedRoute({ forGuest = false, element }: ProtectedRouteProps) {
   const { user, isAuthChecked, isLoading } = useSelector((store) => store.user);
   const location = useLocation();
+  console.log(location.state);
 
   /* Еще не прошла проверка токена */
   if ((!isAuthChecked || isLoading) && localStorage.getItem("accessToken"))
@@ -34,9 +35,7 @@ export function ProtectedRoute({ forGuest = false, element }: ProtectedRouteProp
   return element;
 }
 
-export const PrivateRoute = ({ ...props }: Omit<ProtectedRouteProps, "forGuest">) => (
-  <ProtectedRoute {...props} />
-);
+export const PrivateRoute = ({ ...props }: Omit<ProtectedRouteProps, "forGuest">) => <ProtectedRoute {...props} />;
 export const GuestRoute = ({ ...props }: Omit<ProtectedRouteProps, "forGuest">) => (
   <ProtectedRoute {...props} forGuest />
 );

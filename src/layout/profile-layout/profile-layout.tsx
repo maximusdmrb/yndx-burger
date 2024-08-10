@@ -2,8 +2,8 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import Typography from "../../components/typography/typography";
 import cn from "../../utils/cn";
 import styles from "./profile-layout.module.scss";
-import { logout } from "../../services/slices/user-slice";
 import { useDispatch } from "../../services/store";
+import { logout } from "../../services/actions";
 
 export default function ProfileLayout() {
   const dispatch = useDispatch();

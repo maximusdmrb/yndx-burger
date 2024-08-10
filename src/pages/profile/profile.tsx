@@ -1,15 +1,10 @@
-import {
-  Button,
-  EmailInput,
-  Input,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "../../utils/cn";
 import styles from "./profile.module.scss";
 import { FocusEvent, FormEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "../../services/store";
-import { editUser } from "../../services/slices/user-slice";
 import useForm from "../../hooks/use-form";
+import { editUser } from "../../services/actions";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -58,8 +53,7 @@ export default function Profile() {
     e.preventDefault();
     const sentData = { ...values };
     for (const key in changedFileds) {
-      if (!changedFileds[key as keyof typeof changedFileds])
-        delete sentData[key as keyof typeof changedFileds];
+      if (!changedFileds[key as keyof typeof changedFileds]) delete sentData[key as keyof typeof changedFileds];
     }
     dispatch(editUser(sentData));
   };

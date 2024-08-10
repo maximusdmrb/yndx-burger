@@ -13,7 +13,7 @@ export default function IngredientDetails() {
       <div className={!background ? styles.page : styles.center}>
         {!background && <Typography variant="large">Детали ингредиента</Typography>}
         <img src={ingredient.image_large} alt={ingredient.name} title={ingredient.name} />
-        <Typography className="mb-5" variant="medium">
+        <Typography className="mb-5" variant="medium" data-testid="ingredient_name">
           {ingredient.name}
         </Typography>
         <div className={styles.info}>

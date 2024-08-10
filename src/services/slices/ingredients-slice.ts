@@ -1,17 +1,13 @@
-import { PayloadAction, SerializedError, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../api";
+import { PayloadAction, SerializedError, createSlice } from "@reduxjs/toolkit";
 import { Ingredient } from "../../interfaces";
-
-export const ingredientsQuery = createAsyncThunk("ings/getIngs", async () => {
-  return api.getIngredients();
-});
+import { ingredientsQuery } from "../actions";
 
 interface IStoreIngredients {
   ingredients: Ingredient[];
   isLoading: boolean;
   error: null | string;
 }
-const initialState: IStoreIngredients = {
+export const initialState: IStoreIngredients = {
   ingredients: [],
   isLoading: true,
   error: null,
@@ -32,7 +28,7 @@ export const ingredientsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(ingredientsQuery.rejected, (state, action: { error: SerializedError }) => {
-      state.error = action.error.message ?? "Прозошла неизвестная ошибка";
+      state.error = action.error?.message ?? "Прозошла неизвестная ошибка";
       state.isLoading = false;
     });
   },

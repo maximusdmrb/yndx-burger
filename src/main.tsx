@@ -17,13 +17,12 @@ import "./utils/axios";
 import CenterLayout from "./layout/center-layout";
 import Modal from "./components/modal/modal";
 import IngredientDetails from "./components/modal/ingridient-details";
-import { ingredientsQuery } from "./services/slices/ingredients-slice";
 import ProfileLayout from "./layout/profile-layout/profile-layout";
-import { getUser } from "./services/slices/user-slice";
 import Feed from "./pages/feed/feed";
 import { useDispatch } from "./services/store";
 import OrderPage from "./pages/feed/order-page";
 import HistoryOrders from "./pages/profile/history-orders";
+import { getUser, ingredientsQuery } from "./services/actions";
 
 const App = () => {
   const location = useLocation();
@@ -55,10 +54,7 @@ const App = () => {
           <Route element={<CenterLayout />}>
             <Route path="ingredients/:id" element={<IngredientDetails />} />
             <Route path="feed/:number" element={<OrderPage />} />
-            <Route
-              path="profile/orders/:number"
-              element={<PrivateRoute element={<OrderPage />} />}
-            />
+            <Route path="profile/orders/:number" element={<PrivateRoute element={<OrderPage />} />} />
             {/* Auth Routes */}
             <Route path="login" element={<GuestRoute element={<Login />} />} />
             <Route path="register" element={<GuestRoute element={<Register />} />} />
@@ -108,5 +104,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <App />
       </Router>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

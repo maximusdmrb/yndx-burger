@@ -1,6 +1,5 @@
-import { PayloadAction, SerializedError, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../api";
-import { LoginData, RegisterData } from "../../interfaces";
+import { PayloadAction, SerializedError, createSlice } from "@reduxjs/toolkit";
+import { editUser, getUser, login, logout, register } from "../actions";
 
 export type User = { email: string; name: string };
 
@@ -10,28 +9,12 @@ interface IStoreUser {
   isAuthChecked: boolean;
   error: string;
 }
-const initialState: IStoreUser = {
+export const initialState: IStoreUser = {
   user: null,
   error: "",
   isAuthChecked: false,
   isLoading: false,
 };
-
-export const getUser = createAsyncThunk("user/checkAuth", async () => {
-  return api.getUser();
-});
-export const login = createAsyncThunk("user/login", async (body: LoginData) => {
-  return api.login(body);
-});
-export const register = createAsyncThunk("user/register", async (body: RegisterData) => {
-  return api.register(body);
-});
-export const editUser = createAsyncThunk("user/editUser", async (body: Partial<RegisterData>) => {
-  return api.editUser(body);
-});
-export const logout = createAsyncThunk("user/logout", async () => {
-  return api.logout();
-});
 
 export const userSlice = createSlice({
   name: "user",
@@ -39,9 +22,6 @@ export const userSlice = createSlice({
   reducers: {
     setAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
-    },
-    setUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
     },
     clearError: (state) => {
       state.error = "";
@@ -64,7 +44,7 @@ export const userSlice = createSlice({
         state.user = null;
         state.isAuthChecked = true;
         state.isLoading = false;
-        state.error = action.error.message ?? "";
+        state.error = action.error?.message ?? "Неизвестная ошибка";
       })
 
       /* register */
@@ -82,7 +62,7 @@ export const userSlice = createSlice({
         state.user = null;
         state.isAuthChecked = true;
         state.isLoading = false;
-        state.error = action.error.message ?? "";
+        state.error = action.error?.message ?? "Неизвестная ошибка";
       })
 
       /* logout */
@@ -107,10 +87,11 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.error = "";
       })
-      .addCase(getUser.rejected, (state) => {
+      .addCase(getUser.rejected, (state, action: { error: SerializedError }) => {
         state.user = null;
         state.isAuthChecked = true;
         state.isLoading = false;
+        state.error = action.error?.message ?? "Неизвестная ошибка";
       })
 
       /* editUser */
@@ -126,9 +107,9 @@ export const userSlice = createSlice({
       .addCase(editUser.rejected, (state, action: { error: SerializedError }) => {
         state.user = null;
         state.isLoading = false;
-        state.error = action.error.message ?? "";
+        state.error = action.error?.message ?? "Неизвестная ошибка";
       });
   },
 });
 
-export const { setAuthChecked, setUser, clearError } = userSlice.actions;
+export const { setAuthChecked, clearError } = userSlice.actions;

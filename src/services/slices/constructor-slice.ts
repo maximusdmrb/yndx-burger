@@ -6,7 +6,7 @@ interface IStoreBurger {
   selectedIngredients: Ingredient[];
   dragIngredient: Ingredient | null;
 }
-const initialState: IStoreBurger = {
+export const initialState: IStoreBurger = {
   bun: JSON.parse(localStorage.getItem("bun") || "null"),
   selectedIngredients: JSON.parse(localStorage.getItem("ingredients") || "[]"),
   dragIngredient: null,
@@ -48,4 +48,5 @@ export const constructorSlice = createSlice({
   },
 });
 
-export const { clearBurger, sortIngredients, removeIngredient, addIngredient, setDragIngredient, setBun } = constructorSlice.actions;
+export const { clearBurger, sortIngredients, removeIngredient, addIngredient, setDragIngredient, setBun } =
+  constructorSlice.actions;

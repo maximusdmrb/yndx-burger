@@ -29,7 +29,7 @@ export default function IngredientCard({
       ingredient.type === "bun" && bun?._id === ingredient._id
         ? 2
         : selectedIngredients.filter((ing) => ing._id === ingredient._id).length,
-    [bun, selectedIngredients],
+    [bun, selectedIngredients]
   );
 
   const handleOnDrag = () => {
@@ -41,13 +41,15 @@ export default function IngredientCard({
   return (
     <Link to={`/ingredients/${ingredient._id}`} state={{ background: location }}>
       <div
+        data-testid="card_ingredient"
         className={styles.card + " noselect"}
         {...props}
         draggable
         ref={dragRef}
         onDragEnd={handleOnDragEnd}
         onDrag={handleOnDrag}
-        style={{ opacity }}>
+        style={{ opacity }}
+      >
         {!!qty && <Counter count={qty} size="default" extraClass="m-1" />}
         <img src={ingredient.image} title={ingredient.name} alt={ingredient.name} />
         <div className={styles.price}>

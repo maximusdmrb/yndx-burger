@@ -1,13 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../api";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Order } from "../../types";
-
-export const orderQuery = createAsyncThunk("order/orderQuery", async (ingredients: string[]) => {
-  return api.order(ingredients);
-});
-export const getOrderQuery = createAsyncThunk("order/getOrderQuery", async (number: string) => {
-  return api.getOrder(number);
-});
+import { getOrderQuery, orderQuery } from "../actions";
 
 interface IStoreOrder {
   name: string;
@@ -20,7 +13,7 @@ interface IStoreOrder {
   selectedOrder?: Order | null;
 }
 
-const initialState: IStoreOrder = {
+export const initialState: IStoreOrder = {
   name: "",
   order: {
     number: null,
@@ -55,12 +48,9 @@ export const orderSlice = createSlice({
       };
     });
 
-    builder.addCase(
-      getOrderQuery.fulfilled,
-      (state, action: PayloadAction<{ orders: Order[] }>) => {
-        return { ...state, selectedOrder: action.payload.orders[0] };
-      },
-    );
+    builder.addCase(getOrderQuery.fulfilled, (state, action: PayloadAction<{ orders: Order[] }>) => {
+      return { ...state, selectedOrder: action.payload.orders[0] };
+    });
   },
 });
 
